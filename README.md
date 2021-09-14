@@ -1,4 +1,3 @@
-[Programmieren](./programmieren)
+# Programmieren mit dem Raspberry Pi
 
-[Nachrichtentechnik](./nachrichtentechnik)
 
