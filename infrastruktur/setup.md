@@ -5,30 +5,19 @@ sort: 2
 # Setup
 
 ##### Flashen der Micro-SD-Karte:
+
+![rpi-imager](img/imager.png)
+
 - Imager Download: <https://downloads.raspberrypi.org/imager/imager_1.5.exe>
 - SD-Karte in den Adapter stecken, Adapter in USB-Anschluss am PC stecken
 - Imager am PC starten, Betriebssystem Raspi OS und SD-Karte auswählen, Schreibvorgang starten:
+- Konfiguration für "Headless"-Betrieb (ohne extra Monitor und Tastatur, nur übers Netz): 
+```Strg-Hochstelltaste-X``` liefert ein verstecktes Menu zur Netzwerkkonfiguration
 
-<img alt="" class="img-responsive" src="https://moodle.bulme.at/draftfile.php/744/user/draft/211526816/Bildschirmfoto%20vom%202020-11-13%2010-02-36.png" width= "30%"/>
+![rpi-imager](img/imager-net.png)
 
 - Nach Abschluss des Schreibvorganges den Adapter mit der Karte aus- und wieder anstecken. Unter Windows sollte die Karte jetzt als Wechseldatenträger eingehängt im Dateiexplorer sichtbar sein.
 
-##### Konfiguration für "Headless"-Betrieb (ohne extra Monitor und Tastatur, nur übers Netz)
-- Zur Aktivierung des Zuganges via Secure Shell im eingehängten Laufwerk eine leere Datei ```ssh``` __ohne__ irgendeine Erweiterung wie txt anlegen.
-
-##### Wenn kein Ethernetkabel vorhanden ist: WLAN konfigurieren
-- Im  eingehängten Laufwerk eine Datei ```wpa_supplicant.conf``` anlegen mit folgendem Inhalt (editieren mit Notepad, nicht mit Word etc.):
-_(Statt rnet/rnet-8051 die eigenen WLAN-Zugangsdaten eintragen)_
-```
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-country=AT
-
-network={
-        ssid="rnet"
-        psk="rnet-8051"
-}
-```
 #####  Raspberry Start und Login:
 
 - Karte in den Slot am Raspberry stecken, Ethernetkabel und Steckernetzteil mit dem Raspberry verbinden. Raspberry startet jetzt.
