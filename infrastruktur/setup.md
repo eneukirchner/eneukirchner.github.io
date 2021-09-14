@@ -34,7 +34,10 @@ sort: 2
 - Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal: ```sudo apt update && sudo apt install xrdp```.
 
 __Ganz wichtig! Vor dem Abstecken der Versorgung:
-Im Terminal, egal ob am grafischen Desktop oder in putty: ```sudo shutdown -h now```__
+Im Terminal, egal ob am grafischen Desktop oder in putty:__ 
+
+```sudo shutdown -h now```
+
 
  
 

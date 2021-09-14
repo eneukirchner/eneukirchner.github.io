@@ -8,5 +8,5 @@ sort: 1
 * Original-Netzteil (USB-C)
 * Micro-SD-Karte, Klasse 10, 16 GB oder mehr, ich empfehle: Sandisk Extreme Pro 32 GB
 
-#### RS-Components hat Sonderkonditionen für Schüler/innen:
+_RS-Components hat Sonderkonditionen für Schüler/innen_
 
