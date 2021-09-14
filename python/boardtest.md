@@ -6,7 +6,7 @@ sort: 1
 
 Testprogramm für das Zusatzboard mit LEDs und Buttons
 
-```
+```scss
 #!/usr/bin/env python3
 # Zusatzboard - Test
 
