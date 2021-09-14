@@ -24,7 +24,7 @@ sort: 2
 - Putty downloaden <https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe> und am PC installieren
 - Einloggen via putty: Host: ```raspberrypi.local``` / User: ```pi``` / Passwort: ```raspberry```
 
-<img alt="" class="img-responsive" src="https://moodle.bulme.at/draftfile.php/744/user/draft/211526816/Bildschirmfoto%20vom%202020-11-13%2013-31-30.png" width="30%"/>
+![putty](img/putty.png)
 
 - _Wenn die Namensauflösung mit ```raspberrypi.local``` nicht funktioniert, IP-Adresse mit einem Netzwerkscanner (z.B. ```fling``` am Handy) suchen und diese anstelle des Hostnamens in putty eingeben._
 
@@ -33,8 +33,8 @@ sort: 2
 - Hostnamen ändern. Zur Arbeit speziell in der Klasse soll der Rechnername gleich dem Familiennamen sein. Beispiel: Fred Feuerstein -> ```feuerstein```. Dazu im Terminal ```sudo raspi-config``` eintippen (```sudo``` = do as a superuser). Unter ```Network Options``` zum Punkt ```Hostname``` gehen. Der Name soll klein geschrieben werden,  ohne Sonder- und Leerzeichen.  Danach das Konnfigurationstool verlassen und Reboot wählen. _Navigieren im Konfigurationstool funktioniert mit den Pfeiltasten und dem Tabulator._
 - Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal: ```sudo apt update && sudo apt install xrdp```.
 
-__Ganz wichtig! Vor dem Abstecken der Versorgung:
-Im Terminal, egal ob am grafischen Desktop oder in putty:__ 
+__Ganz wichtig! Vor dem Abstecken der Versorgung,
+im Terminal, egal ob am grafischen Desktop oder in putty:__ 
 
 ```sudo shutdown -h now```
 
