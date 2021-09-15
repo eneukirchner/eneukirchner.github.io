@@ -6,9 +6,9 @@ sort: 4
 
 ## Grundlagen
 
-- [C++ reference](https://en.cppreference.com/){:target="_blank"}
+- [C++ reference](https://en.cppreference.com/)
+- [Einfache Beispiele](https://github.com/eneukirchner/cpp-basics)
 
-- [Einfache Beispiele](https://github.com/eneukirchner/cpp-basics){:target="_blank"}
 
 {% include list.liquid %}
 

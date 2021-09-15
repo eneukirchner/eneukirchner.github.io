@@ -25,7 +25,7 @@ _Du kannst diese Kommandozeile auch mittels Makefile automatisieren._
 
 ## Beispielprogramm Ball
 
-![bouncing ball](img/bouncing_ball.jpg)
+![bouncing ball](img/bouncingball.jpg)
 
 Der folgende Programmcode zeigt ein Beispiel für die Verwendung von ncurses. Kompiliere das Programm und starte es.
 
