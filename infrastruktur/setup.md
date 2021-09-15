@@ -2,7 +2,7 @@
 sort: 2
 ---
 
-# Setup
+# Setup Raspberry
 
 ## Flashen der Micro-SD-Karte:
 
