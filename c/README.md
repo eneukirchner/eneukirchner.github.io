@@ -1,8 +1,8 @@
 ---
-sort: 5
+sort: 3
 ---
 
-# Python
+# C
 
 {% include list.liquid %}
 
