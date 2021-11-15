@@ -33,7 +33,7 @@ sort: 2
 _(Wenn die Namensauflösung mit ```raspberrypi.local``` nicht funktioniert, IP-Adresse mit einem Netzwerkscanner (z.B. ```fling``` am Handy) suchen und diese anstelle des Hostnamens in putty eingeben.)_
 
 ## Basiskonfiguration:
-- Soweit das nicht schon beim Flashen erfolgt ist, können Hostname und Passwort des Users "pi" auch im laufenden Betrieb vom Terminalprogramm aus geändert werden:   
+- Soweit das nicht schon beim Flashen erfolgt ist, können Hostname und Passwort des Users "pi" auch im laufenden Betrieb vom Terminalprogramm aus geändert werden:     
 ```sudo raspi-config``` eintippen (```sudo``` = do as a superuser). Unter ```System Options``` finden sich die passenden Einstellungen. Danach das Konnfigurationstool verlassen und Reboot wählen. _(Navigieren im Konfigurationstool funktioniert mit den Pfeiltasten und dem Tabulator.)_
 - Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal: ```sudo apt update && sudo apt install xrdp```  
 _Wichtig! In der neuesten Version Raspberry Pi OS "bullseye" sind ein Upgrade und zwei zusätzliche Schritte notwendig, sonst zeigt die Remotedesktopverbindung nur einen leeren Bildschirm:_  
