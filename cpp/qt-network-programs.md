@@ -15,6 +15,9 @@ Nach der Erfolgsmeldung spielen wir http-Dialog nach:
 &#9166;   
 &#9166;
 
+_Welche Bedeutung haben die einzelnen Optionen von `nc`? Schlage in der Online-Dokumentation nach:  
+`man nc`   
+`tldr nc` (gegebenenfalls nachinstallieren)_
 
 ## Portscanner-Skelett
 Das gezeigte Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
