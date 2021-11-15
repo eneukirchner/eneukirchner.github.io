@@ -32,6 +32,20 @@ _kein GUI, aber core und network_
 QT -= gui
 QT += core network
 ```
+#### main.h
+```cpp
+#include <QCoreApplication>
+#include "portscanner.h"
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    Portscanner scanner(argc, argv);
+    // hier nicht nötig weil keine Signals/Slots
+    // return a.exec();
+}
+```
+
 #### portscanner.h
 ```cpp
 #include <QObject>
@@ -82,6 +96,19 @@ Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(pare
 ## HTTP-Client
 Das Programm arbeitet ebenfalls im Terminal und gibt die gesamte Antwort des (unverschlüsselten) HTTP-Servers aus. Qt-Creator-Setup und *.pro siehe oben.
 
+#### main.cpp
+```cpp
+#include <QCoreApplication>
+#include "mytcpclient.h"
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    MyTcpClient client(argc, argv);
+    return a.exec();
+}
+```
+
 #### myhttpclient.h
 ```cpp
 #include <QObject>
@@ -121,8 +148,10 @@ MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) : QObject(pare
     connect(m_socket, &QTcpSocket::readyRead, this, &MyTcpClient::readyRead);
 
     m_socket->connectToHost(m_hostname, port); // TCP Connect
-    if (!m_socket->waitForConnected(5000))
+    if (!m_socket->waitForConnected(5000)) {
         qDebug() << "Connect failed!";
+        exit(1);
+    }
 }
 
 void MyTcpClient::connected()
