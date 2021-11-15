@@ -31,7 +31,13 @@ sort: 2
 ## Basiskonfiguration:
 - Passwort des Users "pi" ändern: Im Terminal ```passwd``` eingeben, zunächst das alte Passwort ```raspberry```, dann zweimal das neue eingeben (die eingegebenen Buchstaben sind nicht sichtbar). __Bitte das neue Passwort notieren und zum Raspberry dazulegen!__
 - Hostnamen ändern. Zur Arbeit speziell in der Klasse soll der Rechnername gleich dem Familiennamen sein. Beispiel: Fred Feuerstein -> ```feuerstein```. Dazu im Terminal ```sudo raspi-config``` eintippen (```sudo``` = do as a superuser). Unter ```Network Options``` zum Punkt ```Hostname``` gehen. Der Name soll klein geschrieben werden,  ohne Sonder- und Leerzeichen.  Danach das Konnfigurationstool verlassen und Reboot wählen. _Navigieren im Konfigurationstool funktioniert mit den Pfeiltasten und dem Tabulator._
-- Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal: ```sudo apt update && sudo apt install xrdp```.
+- Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal: ```sudo apt update && sudo apt install xrdp```  
+_Wichtig! In der neuesten Version Raspberry Pi OS "bullseye" sind ein Upgrade und zwei zusätzliche Schritte notwendig, sonst zeigt die Remotedesktopverbindung nur einen leeren Bildschirm:_  
+    1. ```sudo apt upgrade -y```
+    2. ```sudo raspi-config``` 
+        - System -> Boot / Auto Login -> Desktop "Desktop GUI, requiring user to login" 
+        - Interface Options -> VNC -> "Would you like the VNC Server to be enabled?" -> Yes 
+
 
 __Ganz wichtig! Vor dem Abstecken der Versorgung,
 im Terminal, egal ob am grafischen Desktop oder in putty:__ 
