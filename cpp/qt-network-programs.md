@@ -1,20 +1,21 @@
 ---
 sort: 3
 ---
-# Portscanner-Skelett
+# TCP-Clients mit Qt
+## Portscanner-Skelett
 Das gezeigte Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
 
-### Projekt einrichten
+#### Projekt einrichten
 QtCreator -> Neues Projekt -> Anwendung(Qt) -> Qt Konsolenanwendung
 
-### portscanner<span>.pro (Auschnitt des Anfangs)
+#### portscanner<span>.pro (Auschnitt des Anfangs)
 _kein GUI, aber core und network_
 
 ```
 QT -= gui
 QT += core network
 ```
-### portscanner.h
+#### portscanner.h
 ```cpp
 #include <QObject>
 
@@ -28,7 +29,7 @@ signals:
     void quit();
 };
 ```
-### portscanner.cpp
+#### portscanner.cpp
 ```c
 #include <QCoreApplication>
 #include <QAbstractSocket>
@@ -64,10 +65,10 @@ Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(pare
 }
 ```
 
-# HTTP-Client
+## HTTP-Client
 Das Programm arbeitet ebenfalls im Terminal und gibt die gesamte Antwort des (unverschlüsselten) HTTP-Servers aus. Qt-Creator-Setup und *.pro siehe oben.
 
-### myhttpclient.h
+#### myhttpclient.h
 ```cpp
 #include <QObject>
 #include <QTcpSocket>
@@ -89,8 +90,9 @@ private:
     QTcpSocket *m_socket;
     QByteArray m_hostname;
 };
+```
 
-### myhttpclient.cpp
+#### myhttpclient.cpp
 ```cpp
 #include "mytcpclient.h"
 #include <QDebug>
