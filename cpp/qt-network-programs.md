@@ -2,6 +2,21 @@
 sort: 3
 ---
 # TCP-Clients mit Qt
+
+## Basics
+Mit dem Shell-Kommando `nc` lässt sich auf einfache Weise ein Portscanner simulieren:  
+`nc -v -z www.bulme.at 80`
+
+Das Abholen von Daten von einem (unverschlüsselten) Webserver ist damit ebenfalls möglich:
+`nc -v -C localhost 80`  
+Nach der Erfolgsmeldung spielen wir http-Dialog nach:  
+`GET / HTTP/1.1`  
+`Host:localhost`  
+<kbd>&#9166;<kbd>  
+
+<kbd>&#9166;<kbd>
+
+
 ## Portscanner-Skelett
 Das gezeigte Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
 
@@ -24,13 +39,10 @@ class Portscanner : public QObject
     Q_OBJECT
 public:
     explicit Portscanner(int argc, char* argv[], QObject *parent = nullptr);
-
-signals:
-    void quit();
-};
+}
 ```
 #### portscanner.cpp
-```c
+```cpp
 #include <QCoreApplication>
 #include <QAbstractSocket>
 #include <QTcpSocket>
@@ -80,8 +92,6 @@ class MyTcpClient : public QObject
 public:
     explicit MyTcpClient(int argc, char* argv[], QObject *parent = nullptr);
 
-signals:
-
 public slots:
     void connected();
     void readyRead();
@@ -96,6 +106,7 @@ private:
 ```cpp
 #include "mytcpclient.h"
 #include <QDebug>
+#include <QCoreApplication>
 
 MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) : QObject(parent)
 {
@@ -104,8 +115,8 @@ MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) : QObject(pare
     m_socket = new QTcpSocket(this);
 
     // Signal ->  Slot-Verbindung
-    connect(m_socket, SIGNAL(connected()), this, SLOT(connected()));
-    connect(m_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(m_socket, &QTcpSocket::connected, this, &MyTcpClient::connected);
+    connect(m_socket, &QTcpSocket::readyRead, this, &MyTcpClient::readyRead);
 
     m_socket->connectToHost(m_hostname, port); // TCP Connect
     if (!m_socket->waitForConnected(5000))
@@ -122,12 +133,7 @@ void MyTcpClient::readyRead()
 {
     // HTTP-Antwort vom Server
     qDebug() << m_socket->readAll();
+    m_socket->disconnectFromHost();
+    QCoreApplication::quit();
 }
 ```
-
-
-
-
-
-
-
