@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-#### myhttpclient.h
+#### mytcpclient.h
 ```cpp
 #include <QObject>
 #include <QTcpSocket>
@@ -131,7 +131,7 @@ private:
 };
 ```
 
-#### myhttpclient.cpp
+#### mytcpclient.cpp
 ```cpp
 #include "mytcpclient.h"
 #include <QDebug>
