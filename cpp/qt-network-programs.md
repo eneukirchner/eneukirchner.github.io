@@ -9,7 +9,7 @@ Mit dem Shell-Kommando `nc` lässt sich auf einfache Weise ein Portscanner simul
 
 Das Abholen von Daten von einem (unverschlüsselten) Webserver ist damit ebenfalls möglich:
 `nc -v -C localhost 80`  
-Nach der Erfolgsmeldung spielen wir http-Dialog nach:  
+Nach der Erfolgsmeldung spielen wir den http-Dialog nach:  
 `GET / HTTP/1.1`  
 `Host:localhost`  
 &#9166;   
