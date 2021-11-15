@@ -12,9 +12,8 @@ Das Abholen von Daten von einem (unverschlüsselten) Webserver ist damit ebenfal
 Nach der Erfolgsmeldung spielen wir http-Dialog nach:  
 `GET / HTTP/1.1`  
 `Host:localhost`  
-<kbd>&#9166;<kbd>  
-
-<kbd>&#9166;<kbd>
+&#9166;   
+&#9166;
 
 
 ## Portscanner-Skelett
