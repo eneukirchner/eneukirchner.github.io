@@ -16,7 +16,7 @@ Option 1: Bibliothek aus den offiziellen Quellen bauen:
 - System aktualisieren: `sudo apt update && sudo apt upgrade -y`
 - Zusätzlich benötigte Pakete installieren:  
 `sudo apt install swig python-dev python3-dev python-setuptools python3-setuptools`
-- Quelltext herunterlagen und installieren  
+- Quelltext herunterladen und installieren  
 ```
 wget http://abyz.me.uk/lg/lg.zip
 unzip lg.zip
@@ -27,7 +27,7 @@ sudo make install
 
 Option 2: Inoffizielles deb-Paket installieren (experimentell):
 
-- [Download lg_20211118-1_armhf.deb](./files/lg_20211118-1_armhf.deb)
+- [Download lg_20211118-1_armhf.deb](../files/lg_20211118-1_armhf.deb)
 - Installieren: `sudo apt install ./lg_20211118-1_armhf.deb`
 - Bibliothek dem System bekanntmachen: `sudo ldconfig`
 
