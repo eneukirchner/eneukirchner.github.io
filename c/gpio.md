@@ -27,7 +27,7 @@ sudo make install
 
 Option 2: Inoffizielles deb-Paket installieren (experimentell):
 
-- [Download lg_20211118-1_armhf.deb](../files/lg_20211118-1_armhf.deb)
+- Download: `wget https://eneukirchner.github.io/files/lg_20211118-1_armhf.deb`
 - Installieren: `sudo apt install ./lg_20211118-1_armhf.deb`
 - Bibliothek dem System bekanntmachen: `sudo ldconfig`
 
