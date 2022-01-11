@@ -10,8 +10,8 @@ sort: 2
 
 [socketserver - A framework for network servers](https://docs.python.org/3/library/socketserver.html)
 
-# Beispiel Morse-Server
-## Teil I
+## Beispiel Morse-Server
+### Teil I
 
 - Unter Verwendung des [Beispiels mit dem StreamRequestHandler]( https://docs.python.org/3/library/socketserver.html#socketserver-tcpserver-example) soll ein TCP-Server erstellt werden.
 
@@ -29,7 +29,7 @@ pi@bulmix:~/FSST/34AKWIB/MorseServer $ ./morseserver.py
 ```
 _Tipp: Verwenden Sie für die Codetabelle den Datentyp dictionary._
 
-## Teil II
+### Teil II
 
 - Der Server aus Teilaufgabe I soll nun so erweitert werden, dass eine der LEDs am Zusatzboard (GPIO 18 / 23 / 24 / 25) den Code der empfangenen Zeichen nacheinander als Lichtsignal morst. 
 - Timing: Basis ist die Dauer eines Punktes - hier 0.2 Sekunden. [Infos zum Morsecode](https://de.wikipedia.org/wiki/Morsecode#Zeitschema_und_Veranschaulichung)
