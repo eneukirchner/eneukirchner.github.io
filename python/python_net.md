@@ -19,7 +19,7 @@ sort: 2
 
 - Der Server gibt den vom Client empfangenen String (Zeichen 0...9 und a...f, alle anderen ignorieren!) auf der Konsole im Morsecode aus (Beispiel "1affe"):
 ```
-pi@bulmix:~/FSST/34AKWIB/MorseServer $ ./morseserver.py 
+pi@bulmix:~/FSST/34AKWIB/MorseServer $ ./morseserver.py 1234
 127.0.0.1 wrote:
 .----
 .-
