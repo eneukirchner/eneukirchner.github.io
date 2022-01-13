@@ -169,18 +169,3 @@ void MyTcpClient::readyRead()
 }
 ```
 
-## Übungsbeispiel http-Server
-Mit Hilfe der passenden Qt-Netzwerkbibliotheken soll ein einfacher Webserver (Konsolenanwendung) mit folgenden Spezifikationen programmiert werden:
-
-1. Aufruf im Terminal: `./simpleserver 8000 &`   
-Der Server ist auf konfigurierten Netzwerkinterfaces empfangsbereit. Die Portnummer wird als Kommandozeilenargument beim Programmaufruf mitgegeben.
-2. Ablauf der Kommunikation Client-Server gemäß HTTP:
-  - Client (Webbrowser) sendet eine Begrüßung:
-  `GET / HTTP/1.1\r\nHost: localhost\r\n\r\n`  
-  Diese soll zwar gelesen werden, eine weitere Bearbeitung oder Überprüfung ist aber nicht notwendig. 
-
-  - Server antwortet mit:  
-  `HTTP/1.1 200 OK\r\n\r\n<html><body><h1>Hi BULME</h1></body></html>`  
-3. Server schließt den Socket zum Client und ist danach für neue Client-Anfragen bereit.
-
-*Test des Servers mittels Webbrowser, URL `http://<familienname>.local:8000`*
