@@ -1,9 +1,9 @@
 ---
 sort: 3
 ---
-# TCP-Clients mit Qt
+# TCP-Clients / Server
 
-## Basics
+## 1. Basics
 Mit dem Shell-Kommando `nc` lässt sich auf einfache Weise ein Portscanner simulieren:  
 `nc -v -z www.bulme.at 80`
 
@@ -19,8 +19,8 @@ _Welche Bedeutung haben die einzelnen Optionen von `nc`? Schlage in der Online-D
 `man nc`   
 `tldr nc` (gegebenenfalls nachinstallieren)_
 
-## Portscanner-Skelett
-Das gezeigte Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
+## 2. Portscanner-Skelett mit Qt
+Das gezeigte Kommandozeilen-Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
 
 #### Projekt einrichten
 QtCreator -> Neues Projekt -> Anwendung(Qt) -> Qt Konsolenanwendung
@@ -93,7 +93,7 @@ Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(pare
 }
 ```
 
-## HTTP-Client
+## 3. HTTP-Client
 Das Programm arbeitet ebenfalls im Terminal und gibt die gesamte Antwort des (unverschlüsselten) HTTP-Servers aus. Qt-Creator-Setup und *.pro siehe oben.
 
 #### main.cpp
@@ -168,4 +168,90 @@ void MyTcpClient::readyRead()
     QCoreApplication::quit();
 }
 ```
+## 4. Mirror Server
+Diese TCP-Server-Konsolenanwendung sendet die vom Client empfangene Zeichenkette in umgekehrter Reihenfolge zurück.  
+_*.pro und main.cpp wie bei den Clientanwendungen_
+#### mirrorserver.h
+```cpp
+#ifndef MIRRORSERVER_H
+#define MIRRORSERVER_H
+
+#include <QObject>
+#include <QTcpSocket>
+#include <QTcpServer>
+
+const int PORT = 5000;
+class MirrorServer : public QObject
+{
+    Q_OBJECT
+public:
+    explicit MirrorServer(QObject *parent = nullptr);
+
+signals:
+
+public slots:
+    void newConnection();
+    void clientDisconnect();
+    void serverRead();
+
+private:
+    QTcpServer* m_server;
+    QTcpSocket* m_socket;
+};
+
+#endif // MIRRORSERVER_H
+```
+#### mirrorserver.cpp
+```cpp
+#include "mirrorserver.h"
+#include <QDebug>
+
+MirrorServer::MirrorServer(QObject *parent) : QObject(parent)
+{
+    m_server = new QTcpServer(this);
+    connect(m_server, &QTcpServer::newConnection, this, &MirrorServer::newConnection);
+    if (!m_server->listen( QHostAddress::Any, PORT)) { // or QHostAddress::Localhost
+        qDebug() << m_server->errorString(); // error handling, e.g. if port not available
+        exit(EXIT_FAILURE);
+    }
+    else
+        qDebug() << "Server started";
+}
+
+// when connected from client
+void MirrorServer::newConnection()
+{
+    m_socket = m_server->nextPendingConnection(); 
+    connect( m_socket, &QTcpSocket::disconnected, this, &MirrorServer::clientDisconnect );
+    connect( m_socket, &QTcpSocket::readyRead, this, &MirrorServer::serverRead);
+}
+
+// connection is closed by client
+void MirrorServer::clientDisconnect()
+{
+    m_socket->close(); 
+}
+
+void MirrorServer::serverRead()
+{
+    qDebug() << "serverRead";
+
+    while (m_socket->bytesAvailable()) {
+        QByteArray msg = m_socket->readAll();
+        qDebug() << msg;
+        std::reverse(msg.begin(), msg.end());
+        m_socket->write(msg);
+    }
+}
+```
+## Übungsbeispiel
+Programmiere einen HTTP-Server unter Verwendung des oben angeführten Mirrorserver-Beispiels.   
+Tipps: 
+- Der Standard-Port für HTTP ist 80. Der Server muss dazu allerdings mit `sudo` gestartet werden (privilegierter Port). Alternativ kann auch ein höherer Port verwendet werden. Im Browser ist dann beispielsweise die URL `http://localhost:8000` einzugeben.
+- Gemäß HTTP schließt der Server unmittelbar nach einer Client-Abfrage den Socket (im Gegensatz zum obigen Beispiel, wo der Client die Verbindung abbricht).
+
+
+
+
+
 
