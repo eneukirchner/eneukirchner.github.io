@@ -170,7 +170,28 @@ void MyTcpClient::readyRead()
 ```
 ## 4. Mirror Server
 Diese TCP-Server-Konsolenanwendung sendet die vom Client empfangene Zeichenkette in umgekehrter Reihenfolge zurück.  
-_*.pro und main.cpp wie bei den Clientanwendungen_
+_*.pro wie bei den Clientanwendungen_
+
+#### main.cpp
+```cpp
+#include <QCoreApplication>
+#include "mirrorserver.h"
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    MirrorServer server;
+    try {
+        server.start();
+        qDebug() << "server started";
+    } catch(QString& str) {
+        qDebug() << str;
+        return 1;
+    }
+    return a.exec();
+}
+```
+
 #### mirrorserver.h
 ```cpp
 #ifndef MIRRORSERVER_H
@@ -186,6 +207,7 @@ class MirrorServer : public QObject
     Q_OBJECT
 public:
     explicit MirrorServer(QObject *parent = nullptr);
+    void start();
 
 signals:
 
@@ -210,12 +232,12 @@ MirrorServer::MirrorServer(QObject *parent) : QObject(parent)
 {
     m_server = new QTcpServer(this);
     connect(m_server, &QTcpServer::newConnection, this, &MirrorServer::newConnection);
-    if (!m_server->listen( QHostAddress::Any, PORT)) { // or QHostAddress::Localhost
-        qDebug() << m_server->errorString(); // error handling, e.g. if port not available
-        exit(EXIT_FAILURE);
-    }
-    else
-        qDebug() << "Server started";
+}
+
+void MirrorServer::start()
+{
+    if (!m_server->listen(QHostAddress::Any, PORT))
+        throw m_server->errorString(); // happens when PORT already in use or privileged
 }
 
 // when connected from client
