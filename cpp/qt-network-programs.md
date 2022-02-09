@@ -244,8 +244,8 @@ void MirrorServer::start()
 void MirrorServer::newConnection()
 {
     m_socket = m_server->nextPendingConnection(); 
-    connect( m_socket, &QTcpSocket::disconnected, this, &MirrorServer::clientDisconnect );
-    connect( m_socket, &QTcpSocket::readyRead, this, &MirrorServer::serverRead);
+    connect(m_socket, &QTcpSocket::disconnected, this, &MirrorServer::clientDisconnect);
+    connect(m_socket, &QTcpSocket::readyRead, this, &MirrorServer::serverRead);
 }
 
 // connection is closed by client
@@ -270,6 +270,8 @@ void MirrorServer::serverRead()
 Programmiere einen HTTP-Server unter Verwendung des oben angeführten Mirrorserver-Beispiels.   
 Tipps: 
 - Der Standard-Port für HTTP ist 80. Der Server muss dazu allerdings mit `sudo` gestartet werden (privilegierter Port). Alternativ kann auch ein höherer Port verwendet werden. Im Browser ist dann beispielsweise die URL `http://localhost:8000` einzugeben.
+- Protokoll: Der Client sendet einen Request. Dieser kann vom Server gelesen werden und muss dann nicht weiter
+  bearbeitet werden. Unmittelbar danach sendet der Server dem Client Header und Inhalt der Seite.
 - Gemäß HTTP schließt der Server unmittelbar nach einer Client-Abfrage den Socket (im Gegensatz zum obigen Beispiel, wo der Client die Verbindung abbricht).
 
 
