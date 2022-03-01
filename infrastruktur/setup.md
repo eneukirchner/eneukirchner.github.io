@@ -36,12 +36,10 @@ _(Wenn die Namensauflösung mit `raspberrypi.local` nicht funktioniert, IP-Adres
 - Soweit das nicht schon beim Flashen erfolgt ist, können Hostname und Passwort des Users "pi" auch im laufenden Betrieb vom Terminalprogramm aus geändert werden:     
 `sudo raspi-config` eintippen (`sudo` = do as a superuser). Unter `System Options` finden sich die passenden Einstellungen. Danach das Konnfigurationstool verlassen und Reboot wählen. _(Navigieren im Konfigurationstool funktioniert mit den Pfeiltasten und dem Tabulator.)_
 - Remote Desktop aktivieren: Liste der installierbaren Softwarepakete aktualisieren und RDP-Server installieren - Terminal:  
-`sudo apt update && sudo apt install xrdp`
-_Wichtig! In der neuesten Version Raspberry Pi OS "bullseye" sind ein Upgrade und zwei zusätzliche Schritte notwendig, sonst zeigt die Remotedesktopverbindung nur einen leeren Bildschirm:_  
-    1. `sudo apt upgrade -y`
-    2. `sudo raspi-config`
-        - System -> Boot / Auto Login -> Desktop "Desktop GUI, requiring user to login" 
-        - Interface Options -> VNC -> "Would you like the VNC Server to be enabled?" -> Yes 
+`sudo apt update && sudo apt install xrdp`  
+_Wichtig! In der neuesten Version Raspberry Pi OS "bullseye" zeigt die Remotedesktopverbindung beim Login mit User "pi" nur einen türkisen Bildschirm. Workaround - neuen User (hier Beispiel fred) anlegen für das grafische Login und diesen zu den wichtigsten Gruppen hinzufügen:_  
+ `sudo adduser fred`  
+`sudo usermod -a -G sudo,gpio fred`
 
 
 ## Betriebssystem herunterfahren:
