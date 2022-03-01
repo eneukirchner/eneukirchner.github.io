@@ -121,7 +121,7 @@ _Tipp: Zur Farbänderung des Hintergrundes eines QLabel kann die Funktion `setSt
 ![bin-dec-converter](img/bin-dec-converter.png)
 
 _Empfohlener Lösungsansatz:_  
-<img src="img/bin-dec-structure.jpg" width="30%">
+<img src="img/bin-dec-structure.jpg" width="50%">
 
 
 _Code zur Erstellung des Layouts:_
