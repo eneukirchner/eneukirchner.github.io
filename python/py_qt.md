@@ -149,9 +149,7 @@ vbox.addLayout(bitbox)
 # vbox anzeigen in QWidget
 self.setLayout(vbox)
 ```
-_Variablen müssen nur dann als Membervariablen (`self`) bezeichnet werden, wenn sie in Funktionen außerhalb des Konstruktors ausgelesen oder verändert werden!
-
- [siehe Dokumentation](https://docs.python.org/3/tutorial/datastructures.html)_
+_Variablen müssen nur dann als Membervariablen (`self`) bezeichnet werden, wenn sie in Funktionen außerhalb des Konstruktors ausgelesen oder verändert werden!_
 
 _Bei Verwendung der Bibliothek `gpiozero` lässt sich eine Gruppe von LEDs sehr elegant als Liste ansteuern:_
 
