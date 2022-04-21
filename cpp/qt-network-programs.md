@@ -1,7 +1,7 @@
 ---
 sort: 3
 ---
-# TCP-Clients / Server
+# TCP-Client / Server
 
 ## 1. Basics
 Mit dem Shell-Kommando `nc` lässt sich auf einfache Weise ein Portscanner simulieren:  
@@ -32,7 +32,7 @@ _kein GUI, aber core und network_
 QT -= gui
 QT += core network
 ```
-#### main.h
+#### main.c
 ```cpp
 #include <QCoreApplication>
 #include "portscanner.h"
@@ -66,10 +66,6 @@ public:
 
 Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(parent)
 {
-    qDebug("Argc = %d", argc);
-    for ( int i = 0; i < argc; i++)
-        qDebug("argc %d = %s", i, argv[i]);
-
     QTcpSocket* socket = new QTcpSocket(this);
 
     if ( argc == 2 ) {
