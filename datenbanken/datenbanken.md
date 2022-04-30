@@ -1,11 +1,16 @@
 ---
 sort: 1
 ---
+# Unterlagen
+- [cheat sheet](https://quantpaleo.earth.indiana.edu/Handouts/guideMySQL.pdf)
+- [Normalformen](./pdf/datenbanken.pdf)
+- [Verknüpfung der Tabellen](./pdf/songs-uebersicht.pdf)
+- [Skriptum (Prof. Kummer)](./pdf/Datenbanken-Theorie-und-SQL-Abfragen.pdf)
 
-# LAMP = Linux + Apache + MySQL + PHP
-## Installation apache + PHP
+# Installation LAMP-Stack
+## apache + PHP
 
-Installation von Programmpaketen allgemein. _Immer nur einmal pro Raspberry!_
+Installation von Programmpaketen allgemein. 
 
 - Programmliste aktualisieren: `sudo apt update`
 - Programm installieren: `sudo apt install programmname -y`
@@ -50,9 +55,6 @@ Nach der Installation startet der MySQL-Server automatisch.
 `sudo mysql -u root -p`
 
 Dann mit Eingabetaste ohne Passwort in die MySQL-Kommandozeile!
-Hinweise zum Erstellen von Datenbanken und Benutzern siehe
-
-<https://moodle.bulme.at/pluginfile.php/230484/mod_resource/content/1/datenbanken.pdf>
 
 Zur "normalen" Arbeit mit der unter root erstellten Datenbank einen eigenen MySQL-Benutzer (z.B. pi, fred, ...) verwenden. Einloggen geht dann entweder mit
 
