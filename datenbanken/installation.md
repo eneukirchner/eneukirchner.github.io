@@ -18,7 +18,7 @@ Installiere folgende Pakete:
 Mit der Eingabe der URL des Hosts sollte die Testseite im Browser erscheinen. Wo liegt das dazugehörige __index.html__ ? _Tipp: die Konfigurationsfiles des Webservers sind unter __/etc/apache2__  zu finden. Suche mit dem Kommando __grep__ (Hilfe `man grep`) nach dem Schlüsselwort __DocumentRoot__._
 
 Editiere __index.html__, sodass der Rechnername angezeigt wird. Erstelle ein neues File __test.php__ und überprüfe damit die Funktion des PHP - Moduls.
-```
+```php
 <?php
   phpinfo();
 ?>
@@ -53,7 +53,7 @@ Nach der Installation startet der MySQL-Server automatisch.
 Dann mit Eingabetaste ohne Passwort in die MySQL-Kommandozeile!
 
 Datenbank `meine_db` für user `fred` anlegen: 
-```
+```sql
 CREATE DATABASE meine_db;
 GRANT ALL PRIVILEGES ON meine_db.* To 'fred'@'localhost' IDENTIFIED BY 'mein-sicheres-password';
 ```
