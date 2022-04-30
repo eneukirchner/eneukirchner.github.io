@@ -13,7 +13,7 @@ Installation von Programmpaketen allgemein.
 Installiere folgende Pakete:
 
 - __apache2__
-- __libapache2-mod-php7.0__
+- __libapache2-mod-php__
 
 Mit der Eingabe der URL des Hosts sollte die Testseite im Browser erscheinen. Wo liegt das dazugehörige __index.html__ ? _Tipp: die Konfigurationsfiles des Webservers sind unter __/etc/apache2__  zu finden. Suche mit dem Kommando __grep__ (Hilfe `man grep`) nach dem Schlüsselwort __DocumentRoot__._
 
@@ -32,7 +32,7 @@ Mit dem Programm __systemd__ können bei neueren Linux-Distributionen Serverdien
 - __systemctl__: Starten / Stoppen / Neustarten von Serverdiensten
 - __journalctl__: Lesen der Logfiles
 
-Editiere die Datei __/etc/apache2/mods-enabled/php7.0.conf__ wie im Kommentar am Ende angegeben, um auch in den Benutzerverzeichnissen PHP zu aktivieren.
+Editiere die Datei __/etc/apache2/mods-enabled/php*.conf__ wie im Kommentar am Ende angegeben, um auch in den Benutzerverzeichnissen PHP zu aktivieren.
 
 In weiterer Folge soll nach Möglichkeit immer nur unter __public_html__ im eigenen home gearbeitet werden (z.B. als user pi).
 
@@ -40,8 +40,9 @@ In weiterer Folge soll nach Möglichkeit immer nur unter __public_html__ im eige
 ### Benötigt werden:
 
 - __mariadb-server__
-- __php7.0-mysql__
-- __mycli__ (optional: ein etwas komfortableres Textinterface)
+- __php-mysql__
+- __mycli__ (optional: etwas komfortabler als das Standard-Textinterface mysql)
+- __adminer__ (optional: Webinterface zur Administration)
 
 Nach der Installation startet der MySQL-Server automatisch.
 
