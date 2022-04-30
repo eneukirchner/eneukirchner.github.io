@@ -52,6 +52,12 @@ Nach der Installation startet der MySQL-Server automatisch.
 
 Dann mit Eingabetaste ohne Passwort in die MySQL-Kommandozeile!
 
+Datenbank `meine_db` für user `fred` anlegen: 
+```
+CREATE DATABASE meine_db;
+GRANT ALL PRIVILEGES ON meine_db.* To 'fred'@'localhost' IDENTIFIED BY 'mein-sicheres-password';
+```
+
 Zur "normalen" Arbeit mit der unter root erstellten Datenbank einen eigenen MySQL-Benutzer (z.B. pi, fred, ...) verwenden. Einloggen geht dann entweder mit
 
 `mysql -u fred -p`
