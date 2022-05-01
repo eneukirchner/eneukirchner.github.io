@@ -8,7 +8,7 @@ sort: 4
 - Im `*.pro` den Eintrag mit `QT` um `sql` erweitern
 
 ## 2. Materialien
-[Qt-Doku](https://doc.qt.io/qt-5/sql-connecting.html)
+[Qt-Doku](https://doc.qt.io/qt-5/sql-connecting.html) 
 [SQL Model Classes](https://doc.qt.io/qt-5/sql-model.html)
 
 
