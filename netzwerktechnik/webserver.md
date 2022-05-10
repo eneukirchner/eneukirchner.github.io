@@ -6,13 +6,12 @@ sort: 2
 
 ## Benötigte Pakete:
 - apache2
-- libapache2-mod-php
 
 Liste der Installationspakete aktualisieren und Webserver-Pakete installieren:
 
 (Allen Befehlen zur Systemadministration ```sudo``` voranstellen!)
 
-```apt update && apt install -y apache2 libapache2-mod-php```
+```apt update && apt install -y apache2```
 ## Startpunkt im Document Root: 
 ```/var/www/html/index.html```
 
