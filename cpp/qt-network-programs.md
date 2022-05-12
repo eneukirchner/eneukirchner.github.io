@@ -267,8 +267,8 @@ Programmiere einen HTTP-Server unter Verwendung des oben angeführten Mirrorserv
 Tipps: 
 - Der Standard-Port für HTTP ist 80. Der Server muss dazu allerdings mit `sudo` gestartet werden (privilegierter Port). Alternativ kann auch ein höherer Port verwendet werden. Im Browser ist dann beispielsweise die URL `http://localhost:8000` einzugeben.
 - Protokoll: Der Client sendet einen Request. Dieser kann vom Server gelesen werden und muss dann nicht weiter
-  bearbeitet werden. Unmittelbar danach sendet der Server dem Client Header und Inhalt der Seite: 
-`HTTP/1.1 200 OK\r\n\r\n<html><body><h1>Hi BULME</h1></body></html>`html 
+  bearbeitet werden. Unmittelbar danach sendet der Server dem Client Header und Inhalt der Seite:  
+```HTTP/1.1 200 OK\r\n\r\n<html><body><h1>Hi BULME</h1></body></html>```html  
 - Gemäß HTTP schließt der Server unmittelbar nach einer Client-Abfrage den Socket (im Gegensatz zum obigen Beispiel, wo der Client die Verbindung abbricht).
 
 
