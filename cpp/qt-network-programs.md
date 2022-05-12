@@ -262,8 +262,8 @@ void MirrorServer::serverRead()
     }
 }
 ```
-*Anmerkung: Abbruch des Programmes mit <kbd>Strg</kbd> + <kbd>C</kbd> führt zu eine Crash-Meldung im QtCreator. 
-[Lösungsvorschläge: ](https://stackoverflow.com/questions/2300401/qapplication-how-to-shutdown-gracefully-on-ctrl-c)*
+*Anmerkung: Abbruch des Programmes mit <kbd>Strg</kbd> + <kbd>C</kbd> führt zu einer Crash-Meldung im QtCreator. 
+Lösungsvorschläge: <https://stackoverflow.com/questions/2300401/qapplication-how-to-shutdown-gracefully-on-ctrl-c>*
 
 ## Übungsbeispiel
 Programmiere einen HTTP-Server unter Verwendung des oben angeführten Mirrorserver-Beispiels.   
