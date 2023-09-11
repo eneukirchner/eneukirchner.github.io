@@ -6,7 +6,7 @@
 
 [Kommunikationssysteme und Netze](https://eneukirchner.github.io/Kommunikationssysteme_und_Netze/)
 
-{% include list.liquid all=true %}
+{% include list.liquid %}
 
 
 
