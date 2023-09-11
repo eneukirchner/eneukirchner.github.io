@@ -3,5 +3,5 @@ sort: 2
 ---
 Kommunikationssysteme und Netze
 
-{% include list.liquid %}
+{% include list.liquid all=true %}
 
