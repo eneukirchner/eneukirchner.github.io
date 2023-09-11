@@ -1,7 +1,7 @@
 ---
 sort: 1
 ---
-Softwareentwicklung
+# Softwareentwicklung
 
-{% include list.liquid %}
+{% include list.liquid all=true %}
 
