@@ -1,7 +1,9 @@
 ---
 sort: 1
 ---
-<pre>
+# Amplitudenmodulation
+
+```code
 %sample rate
 fs = 10000;
 Ts = 1/fs;
@@ -44,4 +46,5 @@ grid on;
 title("Frequency Domain");
 xlabel('frequency')
 ylabel('power');
-</pre>
+```
+
