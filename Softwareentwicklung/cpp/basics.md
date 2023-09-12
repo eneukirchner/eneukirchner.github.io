@@ -33,7 +33,7 @@ schueler x(„franz“, 6014572018001);// Erzeugung+Initialisierung
 
 ## Mächtigere Datentypen
 
-Basisdatentypen (C / C++)
+### Basisdatentypen (C / C++)
 
 `int x = 0;`
 
