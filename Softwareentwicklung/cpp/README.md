@@ -1,14 +1,12 @@
 ---
-sort: 3
+sort: 1
 ---
 
 # C++
 
-## Grundlagen
-
+## Materialien
 - [C++ reference](https://en.cppreference.com/)
 - [Einfache Beispiele](https://github.com/eneukirchner/cpp-basics)
-
 
 {% include list.liquid %}
 
