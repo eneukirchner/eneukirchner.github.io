@@ -21,7 +21,7 @@ sort: 1
 - Keine eigenständigen Wertzuweisungen
 - Alle Elemente sind Funktionen
 - Einsatzgebiete: Compilerbau, KI
-- Beispiele: LISP, F#
+- Beispiele: LISP, F# (Multiparadigmensprache)
 
 # Deklarativ:
 - Beschreibung des Ergebnisses, nicht des Weges dorthin
