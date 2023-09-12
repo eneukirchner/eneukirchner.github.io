@@ -4,7 +4,6 @@
 
 [Softwareentwicklung](https://eneukirchner.github.io/Softwareentwicklung)
 
-[Kommunikationssysteme und Netze](https://eneukirchner.github.io/KSN)
 
 
 

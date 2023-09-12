@@ -2,6 +2,6 @@
 sort: 2
 ---
 
-# Infrastruktur
+# Raspberry Pi
 
 {% include list.liquid %}
