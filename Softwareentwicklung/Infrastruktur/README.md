@@ -1,8 +1,7 @@
 ---
-sort: 4
+sort: 1
 ---
 
-# Netzwerktechnik
+# Infrastruktur
 
 {% include list.liquid %}
-

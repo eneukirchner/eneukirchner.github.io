@@ -1,5 +1,5 @@
 ---
-sort: 1
+sort: 3
 ---
 
 # GPIO pins ansprechen
@@ -27,7 +27,7 @@ sudo make install
 
 Option 2: Inoffizielles deb-Paket installieren (experimentell):
 
-- Download: `wget https://eneukirchner.github.io/files/lg_20211118-1_armhf.deb`
+- Download: `wget https://eneukirchner.github.io/Softwareentwicklung/Raspberry_Pi/files/lg_20211118-1_armhf.deb`
 - Installieren: `sudo apt install ./lg_20211118-1_armhf.deb`
 - Bibliothek dem System bekanntmachen: `sudo ldconfig`
 
