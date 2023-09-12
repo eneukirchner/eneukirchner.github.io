@@ -1,5 +1,5 @@
 ---
-sort: 4
+sort: 6
 ---
 # TCP-Client / Server
 
@@ -22,17 +22,17 @@ _Welche Bedeutung haben die einzelnen Optionen von `nc`? Schlage in der Online-D
 ## 2. Portscanner-Skelett mit Qt
 Das gezeigte Kommandozeilen-Beispiel versucht sich mit einem Server nacheinander auf Port 1... 1024 zu verbinden. Ist `connect` erfolgreich, so ist der Port offen. Das Codebeispiel ist eine Minimalanwendung auf der Textkonsole, Aufruf (Beispiel): `./portscanner localhost`
 
-#### Projekt einrichten
+### Projekt einrichten
 QtCreator -> Neues Projekt -> Anwendung(Qt) -> Qt Konsolenanwendung
 
-#### portscanner<span>.pro (Auschnitt des Anfangs)
+### portscanner<span>.pro (Auschnitt des Anfangs)
 _kein GUI, aber core und network_
 
 ```
 QT -= gui
 QT += core network
 ```
-#### main.c
+### main.c
 ```cpp
 #include <QCoreApplication>
 #include "portscanner.h"
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-#### portscanner.h
+### portscanner.h
 ```cpp
 #include <QObject>
 
@@ -57,7 +57,7 @@ public:
     explicit Portscanner(int argc, char* argv[], QObject *parent = nullptr);
 }
 ```
-#### portscanner.cpp
+### portscanner.cpp
 ```cpp
 #include <QCoreApplication>
 #include <QAbstractSocket>
@@ -92,7 +92,7 @@ Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(pare
 ## 3. HTTP-Client
 Das Programm arbeitet ebenfalls im Terminal und gibt die gesamte Antwort des (unverschlüsselten) HTTP-Servers aus. Qt-Creator-Setup und *.pro siehe oben.
 
-#### main.cpp
+### main.cpp
 ```cpp
 #include <QCoreApplication>
 #include "mytcpclient.h"
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-#### mytcpclient.h
+### mytcpclient.h
 ```cpp
 #include <QObject>
 #include <QTcpSocket>
@@ -127,7 +127,7 @@ private:
 };
 ```
 
-#### mytcpclient.cpp
+### mytcpclient.cpp
 ```cpp
 #include "mytcpclient.h"
 #include <QDebug>
@@ -168,7 +168,7 @@ void MyTcpClient::readyRead()
 Diese TCP-Server-Konsolenanwendung sendet die vom Client empfangene Zeichenkette in umgekehrter Reihenfolge zurück.  
 _*.pro wie bei den Clientanwendungen_
 
-#### main.cpp
+### main.cpp
 ```cpp
 #include <QCoreApplication>
 #include "mirrorserver.h"
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 }
 ```
 
-#### mirrorserver.h
+### mirrorserver.h
 ```cpp
 #ifndef MIRRORSERVER_H
 #define MIRRORSERVER_H
@@ -219,7 +219,7 @@ private:
 
 #endif // MIRRORSERVER_H
 ```
-#### mirrorserver.cpp
+### mirrorserver.cpp
 ```cpp
 #include "mirrorserver.h"
 #include <QDebug>

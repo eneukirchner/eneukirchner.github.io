@@ -4,7 +4,7 @@ sort: 2
 
 # Grundlagen Objektorientierung
 
-#### Motivation
+## Motivation
 Ziel: Bessere Strukturierung von Programmen, sauberes API („Schnittstelle“, Application Programmers Interface), Wiederverwertbarkeit. Die wichtigsten Mechanismen zum Erreichen dieses Ziels:
 
 * Kapselung: Zugriffsbeschränkung auf die Daten (Membervariablen)
@@ -31,8 +31,9 @@ schueler x; // schueler -> Klasse, x -> Objekt
 schueler x(„franz“, 6014572018001);// Erzeugung+Initialisierung
 ```
 
-#### Mächtigere Datentypen
-##### Basisdatentypen (C / C++)
+## Mächtigere Datentypen
+
+Basisdatentypen (C / C++)
 
 `int x = 0;`
 
@@ -40,17 +41,17 @@ schueler x(„franz“, 6014572018001);// Erzeugung+Initialisierung
 
 `x` … Instanz (eigentliche Element im Speicher)
 
-##### Struktur: erweiterter Datentyp mit mehreren Basisdatentypen (C / C++)
-```
+### Struktur: erweiterter Datentyp mit mehreren Basisdatentypen (C / C++)
+```cpp
 struct schueler {
     char name[20];
     int kennzahl;
 }; 
 ```
 
-##### Klasse: erweiterter Datentyp mit wichtiger Zusatzfunktionalität (C++)
+### Klasse: erweiterter Datentyp mit wichtiger Zusatzfunktionalität (C++)
 
-```
+```cpp
 class schueler {
     public:
         schueler(char *name, int kennzahl); // Konstruktor
