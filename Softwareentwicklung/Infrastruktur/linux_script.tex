@@ -1,0 +1,1133 @@
+\documentclass[11pt]{article}
+
+\usepackage{ngerman} 
+\usepackage{ucs} 
+\usepackage[utf8x]{inputenc} 
+\usepackage{vmargin}
+\usepackage{amsmath,amssymb,amstext} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{latexsym}
+\pagestyle{fancy}
+\parindent0pt
+\parskip1ex
+\setlength{\headheight}{15pt}
+
+
+\title{Linux-Kurzskriptum} 
+\author{Edgar Neukirchner} 
+\date{\today{} BULME Graz-Gösting}
+
+% new command \keys{xxx}
+
+\newbox\mybox
+\newcount\laenge
+\newcount\laengehalbe
+\newcommand{\keys}[1]{%
+\setbox\mybox=\hbox{\footnotesize #1}%
+\laenge=\wd\mybox%
+\advance\laenge by 400000% entspricht 2.15 mm
+\laengehalbe=\laenge%
+\divide \laengehalbe by 2%
+\unitlength1sp\begin{picture}(\laenge,600000)(0, 140000)
+\put(\laengehalbe, 300000){\oval(\laenge, 600000)}%
+\put(200000, 140000){\unhbox\mybox}
+\end{picture}}
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Einstieg} 
+\subsection{Was ist ein Betriebssystem?}
+Ein Computersystem lässt sich schematisch in einer Art Schalenstruktur
+darstellen: Die Rechnerhardware findet sich im Zentrum, umgeben vom
+Kernel mit seinen Modulen. Darauf folgen Standardbibliotheken und
+schließlich Anwenderprogramme.
+
+\subsection{Was ist Linux?} 
+Linux ist ein freies Unix-ähnliches Betriebssystem. Das ``eigentliche''
+Linux ist nur der Betriebssystemkernel (entwickelt von Linus Torvalds).
+Um mit dem System tatsächlich arbeiten zu können, sind eine große Anzahl
+von System- und Hilfsprogrammen notwendig; die meisten von ihnen sind
+freie Software (GPL).
+
+Die Zusammenstellung Kernel plus Software heißt Linux-Distribution.
+Beispiele für kommerzielle Distributionen sind SuSE, Ubuntu, Redhat, Mandriva,
+während OpenSuse, Gentoo und Fedora von Entwicklergemeinden, sogenannten
+Communities erstellt werden.
+
+Linux ist nicht das einzige freie Betriebssystem: FreeBSD, OpenBSD und
+NetBSD sind ebenfalls freie Unix-Derivate, wobei die Entwicklung in
+straffer geführten Projektteams stattfindet. Mac OS X ist zumindest
+teilweise ebenfalls BSD-basiert (Darwin).
+
+\subsection{Charakteristika von Unix/Linux}
+
+\begin{itemize}
+\item hierarchisches Dateisystem
+\item multitaskingfähig (mehrere Aufgaben gleichzeitig)
+\item multiuserfähig (mehrere Benutzer gleichzeitig) 
+\item netzwerkfähig
+\item modular aufgebaut: Benutzer bzw. Administrator können die
+Komponenten frei kombinieren. Graphische Oberfläche (X-Window-System)
+und Betriebssystem sind völlig voneinander getrennt - ein Programm kann
+so auf einem Rechner gestartet und auf einem anderen angezeigt werden.
+\item offen (Quellcode im Internet verfügbar)
+\end{itemize}
+
+Für den Anwender unmittelbar wichtige Unterschiede zu Windows/DOS:
+\begin{itemize}
+\item login mit Passworteingabe erforderlich
+\item bestimmte Dateien und Verzeichnisse sind  nicht für alle Benutzer
+les- und schreibbar.
+\item Groß- und Kleinschreibung wichtig: \texttt{Meinfile} und
+\texttt{meinfile} sind unterschiedliche Dateien!
+\item Pfad-Trenner ist bei DOS der Rückwärts-Schrägstrich $ \backslash
+$, bei Unix der Vorwärts-Schrägstrich /. Unter Unix werden mit $
+\backslash $ lange Befehlszeilen in der nächsten Zeile fortgesetzt.
+\item Es gibt keine Laufwerksbuchstaben.
+\end{itemize}
+
+\subsection{Linux-Installationsvarianten}
+Die ``klassische'' Installation einer Linux-Distribution ist üblicherweise
+mit einer Neupartitionierung der Festplatte verbunden. Damit verbunden
+ist das Risiko des versehentlichen Löschens vorhandener Daten - daher
+Backup nicht vergessen! Alternative Installationsmethoden vermeiden
+diesen weitgehenden Eingriff in eine bestehende Installation -
+allerdings  um den Preis von Performance-Verlusten:
+
+\begin{itemize}
+\item{Installation in einer virtuellen Maschine}
+Beispiele: VMware / VMplayer (gratis, auch vorkonfiguierte Image-Files
+zum Download erhältlich), VirtualPC (Microsoft), virtualbox (neu, auch
+frei)
+
+\item{cygwin}.
+Unix-System, das direkt in der Windows-Umgebung läuft. Die
+Sicherheitsmerkmale von Unix sind nur teilweise vorhanden, als
+Einzelbenutzer-System dennoch brauchbar. Reichhaltige Software-Auswahl,
+auch graphische Anwendungen (X-Server) 
+\end{itemize}
+
+\section{Die Shell}
+\subsection{Merkmale der Shell}
+\begin{itemize}
+\item Hauptaufgabe: Weiterleitung der eingegebenen Kommandozeile ans
+Betriebssystem (Kommandozeileninterpreter, vlg. command.com unter DOS)
+\item Kombination von Kommandos, z.B. mit if- oder while-Bedingungen.
+Auf diese Weise können Kommandoeingaben in Form von Shellscripts
+automatisiert werden.
+\item Konfigurierbarkeit, daher Möglichkeit der Erstellung einer
+persönlichen Arbeitsumgebung
+\item Unix ermöglicht dem Benutzer die Auswahl seiner gewünschten Shell,
+die gängigsten sind: bash (Standard-Shell unter Linux) ,csh, tcsh und
+die ksh.  Um herauszufinden, welche Shell gerade verwendet wird, tippt
+man in der Konsole \texttt{echo \$SHELL} ein.
+\end{itemize}
+
+\subsection{Kontrollsequenzen und Wildcards der bash}
+\begin{tabular}{|l|l|}
+\hline
+Automatische Kommando-/Dateinamenergänzung: & \keys{TAB} \\
+\hline
+In der Kommando-History blättern:&\keys{$ \uparrow $}\keys{$
+\downarrow $} \\
+\hline
+Programmabbruch: & \keys{Strg}+\keys{C} \\
+\hline
+Programm anhalten (suspend): & \keys{Strg}+\keys{Z} \\
+\hline
+angehaltenes Programm im Hintergrund laufen lassen: & \texttt{bg} \\
+angehaltenes Programm im Vordergrund laufen lassen: & \texttt{fg} \\
+\hline
+\texttt{kommando} als Hintergrundprozess starten: & \texttt{kommando \&} \\
+\hline
+Wildcards: & \\
+ein oder mehrere beliebige Zeichen (auch Leerzeichen): & \texttt{*} \\
+genau ein beliebiges Zeichen: & \texttt{?} \\
+alle Buchstaben von a-c: & \texttt{[a-c]} \\
+alle Files mit Endung doc oder cpp & \texttt{*.\{doc,cpp\}} \\
+\hline
+Quotes (verhindern Interpretation als Sonderzeichen): & \\
+nur nachfolgendes Zeichen: & $ \backslash $  \\
+Folge mit Leer-/Sonderzeichen außer Systemvariablen: & '' '' \\
+alle Sonderzeichen: & ' ' \\
+\hline
+\end{tabular}
+
+\section{Unix-Kommandos}
+\subsection{Aufbau eines Unix-Kommandos}
+Unix-Kommandos lauten oft wie die Abkürzung der englischen Bezeichnung
+ihrer Funktion.  Lange Linux-Kommandozeilen wirken oft kryptisch; bei
+genauerer Betrachtung zeigt sich aber, dass sie immer nach folgenem
+Prinzip aufgebaut sind:
+
+\texttt{befehl [-o] argument} 
+
+oder:\\
+\texttt{befehl [--option-lang] argument}
+
+In eckigen Klammern stehene Optionen  oder Argumente können, aber müssen
+nicht verwendet werden. Ob dem Befehl ein Argument folgt oder nicht,
+hängt vom Einsatzzweck und vom Kommando ab. 
+
+\subsection{Die wichtigsten Unix-Kommandos in Kurzfassung}
+\begin{tabular}{|l|l|}
+\hline
+Dateien anzeigen (list): & \texttt{ls [DATEI]} \\
+mit ausführlichen Informationen: & \texttt{ls -l} \\
+auch versteckte Dateien (beispielsweise .bashrc) & \texttt{ls -a} \\
+\hline
+aktuelles Arbeitsverzeichnis ausgeben(print working directory): & \texttt{pwd} \\
+\hline 
+Verzeichnis wechseln (change directory) & \texttt{cd VERZEICHNIS} \\ 
+ins eigene Heimverzeichnis & \texttt{cd} \\
+\hline 
+Verzeichnis anlegen (make directory) & \texttt{mkdir VERZEICHNIS} \\
+\hline
+Datei kopieren (copy) & \texttt{cp QUELLE ZIEL} \\  
+Datei(en) in Zielverzeichnis kopieren & \texttt{cp QUELLE... Ziel} \\
+\hline
+Dateien umbenennen (move) & \texttt{mv QUELLE ZIEL} \\  
+Datei(en) in Zielverzeichnis verschieben & \texttt{mv QUELLE... ZIEL} \\ 
+\hline
+Dateien löschen (remove) & \texttt{rm DATEI} \\
+Verteichnis samt Inhalt löschen (Vorsicht!) & \texttt{rm -r DATEI} \\
+\hline
+Leeres Verzeichnis löschen & \texttt{rmdir VERZEICHNIS} \\
+\hline  
+Datei auf einmal ausgeben & \texttt{cat DATEI} \\
+Datei betrachten (beenden mit \texttt{q}) & \texttt{less DATEI}  \\
+\hline
+\end{tabular} 
+
+\subsection{Umleitung}
+Wenn von der Benutzerin nicht anders angegeben, gehen die von einem
+Programm verarbeiteten Daten folgende Wege: 
+\begin{itemize}
+\item
+Benutzer $ \rightarrow $ Programm: Standardeingabe
+(stdin), d.h. Lesen von der Konsole 
+\item
+Programm $ \rightarrow $ Benutzer: Standardausgabe
+(stdout), d.h. Schreiben auf die Konsole
+\item
+Fehlerausgabe: Standardfehlerausgabe (stderr)
+\end{itemize}
+Durch Anfügen von Umleitungszeichen an das eigentliche Kommando können
+Lese- und Schreiboperationen auch über Dateien laufen.
+
+\subsubsection{Standardeingabe und -ausgabe}
+\texttt{sort < adressbuch} \\
+Die Einträge der Datei \texttt{adressbuch} werden dem Programm
+\texttt{sort} zum alphabetischen Sortieren übergeben. Das Resultat
+erscheint am Bildschirm. 
+
+\texttt{date > erstellungsdatum} \\
+Die Ausgabe des Programmes \texttt{date} wird anstatt auf den
+Bildschirm in die Datei \texttt{erstellungsdatum} geschrieben. Falls die
+Datei schon vorher existiert hat, wird sie überschrieben. Soll die
+Ausgabe an eine Datei angehängt werden, sieht die Zeile so aus:\\
+\texttt{date >> erstellungsdatum} 
+
+\texttt{sort < adressbuch > sortiert} \\
+Kombination von Eingabe- und Ausgabeumleitung, Lesen aus
+\texttt{adressbuch}, Schreiben in \texttt{sortiert} 
+
+\subsubsection{Standardfehlerausgabe}
+\texttt{cat /etc/shadow 2> fehlerfile} \\ 
+Die Fehlerausgabe des Programmes \texttt{cat} wird in eine Datei namens
+\texttt{fehlerfile} umgeleitet. 
+
+\texttt{find / -name adressbuch > gefunden 2> fehlerfile} \\
+Die Ausgabe des Programmes \texttt{find} wird in eine Datei namens
+\texttt{gefunden} umgeleitet, die Fehlermeldungen (z.B. Zugriff nicht
+erlaubt) landen in einem \texttt{fehlerfile}.
+
+\texttt{find / -name adressbuch \&> resultat} \\ 
+Alles, was \texttt{find} ausgibt, wird in eine Datei namens
+\texttt{resultat} umgeleitet - auch die Fehlermeldungen.
+
+\subsubsection{Pipe}
+Alle bisher angeführten Umleitungszeichen stellen immer die Verbindung
+eines Programmes mit einer Datei her. Um die Ausgabe eines Programmes
+der Eingabe eines anderen Programmes zuzuführen, verwenden wir die
+Pipe:
+
+\texttt{cat adressbuch | grep BULME} \\
+Die Datei \texttt{adressbuch} wird mittels des Programmes \texttt{cat
+} ausgegeben; die Ausgabe wird dem Programm \texttt{grep} übergeben, das
+Zeilen ausgibt, die die Zeichenkette \texttt{BULME} enthalten.
+
+\texttt{date | tee erstellungsdatum} \\
+Die Ausgabe des Programmes ''date'' wird an ein ''T-Stück''
+weitergeleitet, das die Daten gleichzeitig an der Standardausgabe
+anzeigt und in die Datei ''erstellungsdatum'' schreibt.
+ 
+\subsubsection{HERE-Dokumente}
+Bei diesem Sonderfall der Eingabeumleitung kommen die Eingaben direkt
+aus dem Shellskript. Der Text wird dabei von einer beliebig wählbaren
+Zeichenfolge umgeben:
+\begin{verbatim}
+#! /bin/bash
+tr [A-Z] [a-z] << TEXT
+null
+eins zwei drei
+vier 
+TEXT
+\end{verbatim}
+
+\section{Wo finde ich Hilfe?}
+\subsection{''Eingebaute'' Hilfe}
+Manche Programme haben eine eigene Option \texttt{--help} zur Ausgabe
+einer Kurzhilfe; darüberhinaus wird gelegentlich auch bei
+falschen/fehlenden Argumenten oder Optionen eine Kurzanleitung
+angezeigt.
+
+\subsection{Manual-Pages}
+Das wichtigste Hilfesystem unter Unix, Aufruf mit: \\
+ \texttt{man [GRUPPE] [OPTIONEN] SUCHWORT}.\\
+
+\texttt{SUCHWORT} muss auf jeden Fall angegeben werden, bei fehlender
+\texttt{GRUPPE} wird jene mit der niedrigsten Nummer angezeigt.
+Manual-Pages haben eine einheitliche Syntax, Details unter \texttt{man
+man}. Kommandos, Argumente und Optionen werden folgendermaßen gekennzeichnet:
+
+\begin{tabular}{ll}
+\textbf{text} & text wörtlich wie in der Anzeige \\
+$ \underline{text}$ & text ersetzen durch ein passendes Argument \\
+$[$\textbf{-a}$]$ & a ist ein optionales Argument \\
+$[$\textbf{-a$|$b}$]$ & es kann nur entweder Argument a oder Argument b benützt
+werden \\
+$ \underline{text}$... &  mehrere Optionen oder Argumente möglich\\
+\end{tabular} \\
+
+Weiters liefert \texttt{whatis SUCHWORT} eine einzeilige
+Kurzbeschreibung eines Befehls.  Mit \texttt{apropos SUCHWORT} werden
+die Kurzbeschreibungen aller Manual-Pages nach \texttt{SUCHWORT}
+durchforstet.
+
+\subsection{info-System}
+Diese Online-Hilfe gibt es nur für GNU-Projekte; es ist eines der ersten
+Hypertextsysteme. Weitere Informationen und Tutorials mit \texttt{info
+info}.
+
+Die wichtigsten Tastenkürzel:
+
+\begin{tabular}{|l|l|}
+\hline
+\texttt{n} & zum nächsten Knoten\\
+\texttt{p} & zum vorherigen (previous) Knoten\\
+\texttt{u} & eine Ebene in der Hierarchie hinauf (up)\\
+\texttt{m} & Menü (mit \keys{TAB} Text vervollständigen)\\
+\texttt{1}...\texttt{9} & zum Menüpunkt 1...9 gehen\\
+\texttt{0} & zum letzten Menüpunkt gehen\\
+\texttt{i} & zum Verzeichnis (index)\\
+\texttt{s} & nach einem Text suchen\\
+\hline
+Querverweise (Links): & \\
+\texttt{f} & dem Link (f)olgen \\
+\texttt{l} & zurück zum (l)etzten Link\\
+\hline
+\end{tabular}
+
+\subsection{Weitere Hilfe}
+Unter Linux sind in der Verzeichnishierarchie unter /usr/share/doc
+teilweise recht ausführliche Hilfedateien vorhanden. Im Internet gibt es
+unter dem Linux Documentation Project http://tldp.org/ HOWTOs, FAQs und
+ganze Bücher rund um Unix und Linux.
+
+
+\section{Dateien und Verzeichnisse}
+\subsection{Der Verzeichnisbaum eines Linux-Systems}
+\begin{samepage}
+\begin{verbatim}
+/
+|-- bin
+|-- boot
+|-- cdrom
+|-- data
+|-- dev
+|-- etc
+|-- floppy
+|-- home
+|-- initrd
+|-- lib
+|-- lost+found
+|-- mnt
+|-- opt
+|-- proc
+|-- root
+|-- sbin
+|-- sys
+|-- tmp
+|-- usr
+`-- var
+
+\end{verbatim}
+\end{samepage}
+
+\subsection{Navigieren im Dateisystem}
+Einige Verzeichnisse sind besonders gekennzeichnet:\\
+
+\begin{tabular}{ll}
+. & das aktuelle Verzeichnis \\
+.. & das dem aktuellen Verzeichnis übergeordnete Verzeichnis \\
+$\sim$ & das eigene home-Verzeichis \\
+$\sim$\texttt{fred} & Kurzschreibweise für \texttt{/home/fred} \\
+\end{tabular} \\
+
+\texttt{cd} (ohne Argumente) wechselt immer ins home-Verzeichnis des
+Benutzers, unter dem man gerade eingeloggt ist.
+
+Pfadangaben können auf zwei Arten erfolgen:
+\begin{itemize}
+\item absolut (ausgehend vom Wurzelverzeichnis /), z.B: \\
+\texttt{/home/fred/bilder/ferien04/girl.jpg}
+\item relativ (vom aktuellen Verzeichnis aus):\\
+\texttt{bilder/ferien04/girl.jpg}\\
+oder zur Verdeutlichung:\\
+\texttt{./bilder/ferien04/girl.jpg}
+\end{itemize}
+
+\subsection{Dateitypen}
+Unter Unix ist beinahe alles eine Datei, auch Systemressourcen wie
+Speichermedien, Netzwerklaufwerke, Ethernet-Adapter und Mäuse. Der
+Dateityp wird durch bestimmte Flags, aber nicht wie unter DOS durch
+die Erweiterung bestimmt, d.h. ein ausführbares Programm hat nicht
+notwendigerweise die Form \texttt{programm.exe}. Wenn ein Datei eine
+bestimmte Erweiterung hat, so wird diese vom Anwendungsprogramm (z.B.
+OpenOffice) verlangt und nicht vom Betriebssystem. Herausfinden lässt
+sich der Dateityp durch Eingabe des Befehls:\\
+\texttt{ls -l DATEI} \\
+(Dateityp steht im ersten Feld der Ausgabezeile) oder durch \\
+\texttt{file DATEI}. 
+
+Die wichtigsten Dateitypen sind (Bsp. jeweils mit der Ausgabe von
+\texttt{ls -ld}):
+\begin{itemize}
+\item Gewöhnliche Dateien (Texte, Daten, Konfigurationsdateien):\\
+\texttt{-rw-r--r--    1 root     root          905 2004-07-07 14:05
+/etc/passwd}
+\item ausführbare Dateien (Programe): \\
+\texttt{-rwxr-xr-x    1 root     root       142896 2003-09-23 19:33
+/bin/tar}
+\item Verzeichnisse (Directories): \\
+\texttt{drwxr-xr-x   55 root     root         5728 2004-10-04 14:20
+/etc}
+\item Verweise (Hard-, Softlinks): \\
+\texttt{lrwxrwxrwx    1 root     root           10 2004-07-07 13:40 mail
+-> spool/mail}
+\item Gerätedateien (Block-, Character-Devices): \\
+\texttt{brw-rw----    1 root     disk       3,   0 2003-09-23 19:59
+/dev/hda} \\
+\texttt{crw-rw----    1 root     uucp       5,  64 2003-09-23 19:59
+/dev/cua0}
+\item Fifo (named pipe): \\
+\texttt{prw-r--r--    1 edgar    users           0 2004-10-04 18:06 xx}
+\end{itemize}
+
+
+\subsection{Zugriffsrechte}
+Unter Unix gibt es die Möglichkeit, Lese-, Schreib- und
+Ausführungsrechte an den Eigentümer, die Gruppe zu der er gehört und
+für alle anderen Benutzer zu vergeben. Diese Rechte lassen sich mit
+wiederum mit \texttt{ls -l} anzeigen, mit der Ausgabe: \\
+
+\texttt{-rwxr-xr-x    1 kurs     users           8 2004-10-06 15:50 testfile } \\
+
+Nach dem ersten Ausgabefeld (-) kommen drei Dreiergruppen von Zeichen
+nach dem Schema:
+
+\begin{tabular}{|l|c|c|c|}
+\hline
+Rechte für: & (u)ser & (g)roup & (o)ther \\
+\hline
+\hline
+mit Buchstaben: & rwx & r-x & r-x \\ 
+binär: & 111 & 101 & 101  \\
+oktal: & 7 & 5 & 5 \\
+\hline
+\end{tabular}\\
+
+Eigentümer der Datei ist \texttt{kurs}, die Gruppe mit Zugriffsrechten
+heißt in diesem Beispiel \texttt{users}.
+
+Gesetzt werden die Dateirechte mit:\\ 
+\texttt{chmod [OPTION]... MODUS[,MODUS]... DATEI...}
+
+oder \\
+\texttt{chmod [OPTION]... OKTAL-MODUS DATEI...}\\
+
+\texttt{MODUS} besteht aus 3 Teilen:
+\begin{itemize}
+\item Wer: u (user, Eigentümer), g (group), o (alle anderen), a (alle,
+  d.h Eigentümer, Gruppe und alle anderen)
+\item Operator: + (Rechte geben), - (Rechte wegnehmen), = (Rechte
+  setzen)
+\item Rechte: r (read, lesen), w (write, schreiben), x (execute,
+  ausführen, bei Verzeichnissen durchsuchen). Anstelle von x kann s
+  (sticky) stehen, der aufrufende Benutzer erhält die Rechte des
+  Eigentümers bzw. der Gruppe. Achtung: Falls der Eigentümer ''root''
+  heißt, ist das eine gefährliche Sicherheitslücke!
+\end{itemize}
+
+In der zweiten Form wird der \texttt{OKTAL-MODUS} wie in der Tabelle
+angedeutet durch drei Oktalziffern gesetzt. Im Fall des sticky bit
+wird 4 (für den Eigentümer) oder 2 (Gruppe) vorangestellt.  Eine ganze
+Verzeichnishierarchie wird mit der Option \texttt{-R} (rekursiv)
+bearbeitet.
+
+Die Zuordnung von Dateien zu einem Eigentümer erfolgt durch: \\
+\texttt{chown EIGENTÜMER DATEI...}
+
+Zuordnung zu einer Gruppe mit:\\
+\texttt{chgrp GRUPPE DATEI...}
+
+Welche Rechte eine Datei standardmäßig hat, lässt sich in der
+Benutzerkonfiguration einstellen durch:\\
+\texttt{umask MODE}
+
+\section{Suchen, finden und ersetzen}
+\subsection{Suchen von Dateien und Verzeichnissen}
+\texttt{find [Pfad...] [Suchkriterium]}\\
+
+Die wichtigsten Spezialfälle (Details siehe Manual Page) anhand
+von Beispielen:\\
+
+\texttt{find / -name fred} \\
+Vom Wurzelverzeichnis beginnend alle Dateien und Verzeichnisse
+anzeigen, die \texttt{fred} heißen. Hinweis: Bei Wildcards (*, ?, [ ])
+im Namen müssen Quotes '' '' verwendet werden.
+
+\texttt{find / -user kurs} \\
+Vom Wurzelverzeichnis beginnend alle Dateien und Verzeichnisse
+anzeigen, die dem Benutzer \texttt{kurs} gehören.
+
+\texttt{find /tmp -mtime +3 -print -exec rm \{\} $\backslash$;} \\
+Alle Dateien und Verzeichnisse unter dem Verzeichnis \texttt{/tmp}
+ausgeben, falls sie länger als 3 Tage nicht modifiziert wurden.
+Alles was nach \texttt{-exec} steht, ist der Aufruf eines weiteren
+Programmes (hier \texttt{rm}, löschen). Mit \{\} werden dem Programm
+die von \texttt{find} ausgegebenen Zeilen als Argumente übergeben. Die
+Kommandozeile von \texttt{rm} wird mit ; abgeschlossen, wobei der
+Backslash verhindert, dass die Shell den Strichpunkt schon vorher
+interpretiert (Quoting).
+
+\texttt{find $\sim$karl -type d -exec chmod 775 \{\} $\backslash$;} \\
+Alle Verzeichnisse unterhalb des Heimverzeichnisses vom Benutzer
+\texttt{karl} werden auf \texttt{rwxrwxr-x} gesetzt.
+
+\subsection{Suchen/Ersetzen von Text in Dateien} 
+\subsubsection{Reguläre Ausdrücke (regular expressions)}
+\begin{tabular}{|l|l|}
+\hline
+regulärer Ausdruck: & Bedeutung:\\
+\hline
+\texttt{a+} & a kommt $\ge$ 1mal vor \\
+\texttt{a*} & a kommt $\ge$ 0mal vor \\
+\texttt{a?} & a kommt $\le$ 1mal vor \\
+\texttt{a\{,n\}} & a kommt maximal n-mal vor \\
+\texttt{a\{n,\}} & a kommt mindestens n-mal vor \\
+\verb1^a1 & a am Zeilenanfang \\
+\texttt{a\$} & a am Zeilenende \\
+\texttt{$\backslash$<} & Beginn einer Wortgrenze \\
+\texttt{$\backslash$>} & Ende einer Wortgrenze \\
+\texttt{.} & ein beliebiges Zeichen \\
+\texttt{[a-z]} & eines der Zeichen von a bis z \\
+\texttt{[xyz]} & eines der Zeichen x,y,z \\
+\verb1[^xyz]1 & keines der Zeichen x,y,z (Negation)\\
+\hline
+\end{tabular}\\
+
+Die Wildcards der shell und reguläre Ausdrücke  sehen ähnlich aus,
+sind aber zwei unterschiedliche Dinge! Während Wildcards von der shell
+zu Dateinamen erweitert werden, finden reguläre Ausdrücke als Argumente
+zum Suchen und Ersetzen von Zeichenketten in Programmen wie grep, vi, sed,
+awk Verwendung.\\  
+
+
+Beispiele:\\
+\begin{tabular}{ll}
+Muster & Passt auf:\\
+\hline
+\texttt{Code} & Die Zeichenkette \texttt{Code}\\
+\verb1^Code1 & Die Zeichenkette \texttt{Code} am Zeilenanfang\\
+\texttt{Code\$} & Die Zeichenkette \texttt{Code} am Zeilenende\\
+\verb1^Code$1 & Die Zeichenkette \texttt{Code} steht allein in der Zeile\\
+\texttt{[CK]ode} & \texttt{Code} oder \texttt{Kode}\\
+\texttt{Co.e} & Der dritte Buchstabe ist ein beliebiges Zeichen\\
+\verb1^....$1 & Jede Zeile mit genau 4 Zeichen\\
+\verb1^\.1 & Jede Zeile die mit einem Punkt beginnt (Metazeichen
+gequotet)\\
+\verb1^[^.]1 & Jede Zeile die nicht mit einem Punkt beginnt\\
+\texttt{Code*} & \texttt{Code Codewort Codeknacker Codeschloss} usw.\\
+\texttt{[0-9]*} & Null oder mehrere Ziffern\\
+\texttt{[0-9]+} & Eine oder mehrere Ziffern\\
+\texttt{[0-9].*} & Eine Ziffer, gefolgt von null oder mehr Zeichen \\
+\texttt{80[456]?86*} & \texttt{8086 80486 80586 80686} \\
+\texttt{Hand(y|ie)s} & \texttt{Handys Handies} \\
+\end{tabular}
+
+
+\subsubsection{Suchen mit ''grep''}
+
+\texttt{grep [OPTION]... MUSTER [DATEI] ...} \\
+Als \texttt{MUSTER} dienen sogenannte ''reguläre Ausdrücke''
+Falls im \texttt{MUSTER} Sonderzeichen bzw. Wildcards vorkommen,
+müssen sie unter Hochkommata gestellt werden (quoting), da sie ansonsten
+bereits von der shell und nicht erst von grep ausgewertet werden. 
+
+\textit{Hinweis: einige Ausdrücke funktionieren nur in der erweiterten
+Version \texttt{egrep}}
+
+Beispiel:\\
+In einem Verzeichnis befinden sich die Dateien\\ 
+\texttt{array.c band.c kap1 kap2}
+
+Zur Suche nach einem Muster aus beliebigen Kleinbuchstaben in den
+Dateien \texttt{kap1 kap2} wird folgende Zeile eingegeben:\\
+\texttt{grep [a-z]* kap[12]}
+
+Das wird aber von der shell interpretiert als\\
+\texttt{grep array.c band.c kap1 kap2} \\
+während \texttt{[a-z]*} eigentlich nur das an \texttt{grep} übergebene
+Suchmuster sein sollte. Um die Interpretation der Metazeichen im
+Suchmuster durch grep zu erzwingen, muss daher\\
+\texttt{grep ''[a-z]*'' kap[12]}\\
+eingegeben werden.\\
+
+\subsubsection{Suchen und ersetzen mit dem Stream-Editor ''sed''}
+
+\texttt{sed [-e 'Befehle'] [ DATEI]} \\
+Wird keine Datei angegeben, liest sed aus der Standardeingabe.\\
+
+Beispiel:Jedes Mal, wenn im File ''hallo.txt'' das Wort ''Windows'' vorkommt,
+soll dieses durch ''Linux'' ersetzt werden. (Der Schalter ''g'' für ''global''
+bewirkt, dass das Wort auch ersetzt wird, wenn es in einer Zeile mehrmals vorkommt).
+\begin{verbatim}
+sed -e 's/Windows/Linux/' hallo.txt
+\end{verbatim}
+
+Beispiel: Leerzeilen aus einer Datei löschen (d = ''delete''):
+\begin{verbatim}
+sed -e '/^$/d' hallo.txt
+\end{verbatim}
+
+Beispiel: Leer- und Kommentarzeilen aus einer Datei löschen, das Zeichen \texttt{|} 
+bedeutet ODER-Verknüpfung. Da es nicht Bestandteil des Suchmusters ist, muss ein 
+Backslash vorangestellt werden:
+\begin{verbatim}
+sed -e '/^$\|#/d'
+\end{verbatim}
+
+Backups anlegen:
+\begin{verbatim}
+#!/bin/sh
+EXTENSION="txt"
+for name in *.$EXTENSION ; do
+        backup=`echo $name | sed -e "s/\.$EXTENSION/\.bak/"`
+        echo "$name -> $backup"
+        cp $name $backup
+done
+\end{verbatim}
+
+\section{Prozesse}
+\subsection{Welcher Prozesse laufen?}
+Beim Start eines Programmes wird aus einem existierenden Prozess ein
+neuer erzeugt (fork). Der ''Vaterprozess'', der beim Hochfahren
+gestartet wird, heißt init.Mit \texttt{pstree} lässt sich diese
+Hierarchie visualisieren, wie der folgenden Ausschnitt zeigt:
+\begin{samepage}
+\begin{verbatim}
+init-+-acpid
+     |-bdflush
+     |-cron
+     |-cupsd
+     |-fetchmail
+     |-kalarmd
+     |-kamix
+     |-kdeinit-+-artsd
+     |         |-3*[kdeinit]
+     |         |-kdeinit---bash-+-xdvi.bin
+     |         |                `-xemacs
+     |         |-kdeinit---bash---ssh
+     |         `-kdeinit---bash---pstree
+\end{verbatim}
+\end{samepage}
+
+Laufende Prozesse werden angezeigt mit:\\
+\texttt{ps}\\
+(Ausgabeformat: \texttt{PID}...Prozessnummer, \texttt{CMD}...Programmname)
+
+Prozesse, die nicht aus einem Terminalfenster heraus gestartet werden
+(sondern z.B. aus dem KDE-Startmenü), erscheinen erst bei Eingabe von:\\
+\texttt{ps x}\\
+\textit{(Hinweis: die Optionen werden hier ohne führendes - angegeben,
+  da ps die BSD-Syntax verwendet)}.
+
+Eine tabellarische Darstellung, die auch Interaktionen des Benutzers
+ermöglicht, liefert:\\
+\texttt{top}\\
+(Hilfe mit h, beenden mit q).
+
+
+\subsection{Hintergrund-Prozesse}
+Wird ein Prozess im Hintergrund gestartet, z.B. mit:\\
+\texttt{xeyes \&} \\
+so erscheint in der folgenden Zeile z.B: \\
+\texttt{[2] 2201} (Format: [JOBNUMMER] PID)
+
+Der Prozess wird in den Vordergrund geholt mit:\\
+\texttt{fg \%JOBNUMMER}
+
+zurück in den Hintergrund geht es mit:\\
+\keys{CTRL}+\keys{Z}\\
+\texttt{bg} 
+
+Die Jobnummern der laufenden Hintergrundprozesse liefert:\\
+\texttt{jobs}
+
+\subsection{Prozesse beenden}
+Beenden eines nicht reagierenden Programmes:\\
+\texttt{kill PROZESSNUMMER}\\
+Bei Hintergrundprozessen alternativ auch:\\
+\texttt{kill \%JOBNUMMER}
+
+Beenden aller Programme mit Namen PROGRAMMNAME:\\
+\texttt{killall PROGRAMMNAME}.
+
+Mit \texttt{kill} können als Optionen auch Signale mitgesendet werden.
+Gewaltsames Beenden eines nicht mehr reagierenden Programmes (SIGKILL):\\
+\texttt{kill -9 PROZESSNUMMER}
+
+Beenden eines Programmes mit anschließendem Neustart (z.B. zum Einlesen neuer
+Konfigurationsdaten):\\
+\texttt{kill -HUP PROGRAMMNAME} 
+
+\section{Tools}
+\subsection{Editoren}
+vi ist der auf jedem Unix-System vorhandene Standard-Editor. Er ist
+schnell, klein und benutzerfreundlich auf eine besondere Art - er
+kennt zwei Betriebsarten, den Kommandomodus (Zustand nach dem Start,
+Befehlseingabe) und den Eingabemodus (insert mode, Texteingabe).\\
+
+\begin{tabular}{|l|l|}
+\hline
+\texttt{i} & Wechsel Kommandomodus $\rightarrow$ Eingabemodus mit i \\
+\keys{\texttt{ESC}} & Wechsel Eingabemodus  $\rightarrow$ Kommandomodus \\
+\texttt{o} & neue Zeile anfügen \\
+\texttt{dd} & aktuelle Zeile löschen (delete)\\
+\texttt{yy} & aktuelle Zeile kopieren (yank)\\
+\texttt{p} & gelöschte oder kopierte Zeile einfügen (put)\\
+\texttt{x} & ein Zeichen löschen \\
+\texttt{u} & Änderungen rückgängig machen (undo)\\
+\texttt{:w} & speichern (write)\\
+\texttt{:wq} & speichern und beenden (quit)\\
+\texttt{ZZ} & \\
+\texttt{:q!} & beenden, ohne Änderungen zu speichern\\
+\texttt{:\%s/alt/neu/g} & überall \texttt{alt} durch \texttt{neu} ersetzen\\
+\texttt{help} & Onlinehilfe \\
+\hline
+\end{tabular}
+\\
+
+Ein weiterer, in LISP frei programmierbarer Editor ist emacs. Er
+arbeitet mit vielen gängigen Unix-Werkzeugen wie z.B. grep, gcc, make
+zusammen. Neuere Entwicklungen in richtung integrierte Designumgebung
+(IDE) sind kdevelop (Bestandteil des Windowmanagers KDE) und eclipse
+(Java-basiert, mit plugins erweiterbar).
+
+\subsection{Compiler}
+Der gcc (GNU compiler collection) zum Kompilieren von C-Programmen
+wird so verwendet:\\
+\texttt{gcc hello.c} \\
+Das resultierende ausführbare Programm heißt traditionsgemäß \texttt{a.out}.
+
+\texttt{gcc hello.c -o hello}\\
+liefert ein Programm namens \texttt{hello}\\
+\textit{(Hinweis: Der Kompiler setzt die Rechte der erzeugten
+  Programme automatisch auf e(x)ecutable. Dennoch liefert die Eingabe
+  von hello auf den meisten Systemen ein ''command not found'': Der
+  Suchpfad \$PATH zum Programm ist aus Sicherheitsgründen nicht auf
+  das aktuelle Verzeichnis gesetzt, daher ist eine Eingabe der Form
+  ./hello notwendig)} 
+
+Nur kompilieren ohne zu linken:\\
+\texttt{gcc -c hello.c}
+
+Das entstehende Object File \texttt{hello.o} wird gelinkt mit\\
+\texttt{gcc -c hello.o}
+
+\subsection{Archivierung mit tar (''tape archiver'')}
+\texttt{tar [OPTION]... [Datei]...}\\
+\textit{OPTION ist in der Unix- und in der BSD-Form (ohne -) möglich.
+  Bei der BSD-Form ist die Reihenfolge der Optionen egal!}
+
+Erzeugen eines komprimierten Archivs (auch mit winzip extrahierbar!):\\
+\texttt{tar zcvf freds-backup.tgz /home/fred}
+
+Auslesen des Inhalts dieses Archivs:\\
+\texttt{tar zvft freds-backup.tgz}
+
+Entpacken:\\
+\texttt{tar zvfx freds-backup.tgz}
+
+Bedeutung der Optionen:\\
+\begin{tabular}{|ll|}
+\hline
+\texttt{v} & ausführliches Listing (verbose) \\
+\texttt{z} & (de)komprimieren mit gz (mit j anstelle von z: bzip2)\\
+\texttt{c} & Archiv erzeugen (create) \\
+\texttt{v} & ausführliches Listing (verbose) \\
+\texttt{f} & Archiv ist ein (f)ile, ohne die Option Schreiben auf ein tape \\
+\texttt{t} & Inhalt auflisten ohne zu entpacken \\
+\texttt{x} & e(x)trahieren \\
+\hline
+\end{tabular}
+
+\section{Shellskripts} 
+\subsection{Begriffsdefinition und Einsatzgebiete}
+Zur automatischen Abarbeitung längerer oder komplexer Befehlsfolgen
+bietet sich die Verwendung von Skripts an. Routinemäßige
+Administrationsaufgaben können so vereinfacht werden oder überhaupt
+als cron-job periodisch gestartet werden. Auch das Hochfahren des
+gesamten Linux-Systems wird durch Shellskripts gesteuert.  
+
+Im Gegensatz zu kompilierten Programmen werden Skripts interpretiert,
+die Ausführung ist daher etwas langsamer; andererseits ist die
+Erzeugung von Scripts unkomplizierter (Compileraufruf entfällt). Oft
+sind Skripts auch leichter auf andere Plattformen (z.B. Windows,
+MaxOS) portierbar. Als Interpreter dient im einfachsten Fall die Shell
+selbst (bash, sh, csh usw.) - das Pendent dazu aus der DOS-Welt heißt
+Batchfile. Für spezielle Anforderungen oder größere Projekte stehen
+Skriptsprachen wie perl, pyton, tcl etc. zur Verfügung.
+
+\subsection{Systemumgebung}
+Grundvoraussetzungen zum Ausführen eines Shellskripts:
+\begin{itemize}
+\item Der entsprechende Interpreter muss auf dem System installiert sein.
+\item Ganz am Beginn des Skripts sollte der Interpreter des Skriptes
+  angeführt werden. Falls ein Benutzer z.B. seine Arbeitsumgebung so
+  konfiguriert hat, dass standardmäßig die csh läuft, wird auf diese
+  Weise die Verwendung der bash sichergestellt:\\
+  \texttt{\#! /bin/bash}\\
+  Das gleiche für perl:\\
+  \texttt{\#! /usr/bin/perl}\\
+  \textit{Hinweis: Der Pfad zum Interpreter kann von System zu System
+    variieren. Mit ``which perl'' wird der Suchpfad z.B. zu perl
+    angezeigt.}
+\item Der Benutzer muss das Skript ausführen können. Unter Unix
+  geschieht das nicht durch Erkennen einer Dateinamen-Erweiterung wie
+  .bat oder .exe unter DOS (d.h. die Namenswahl ist weitgehend frei)
+  sondern durch Setzen der Rechte, z.B. mit: \\
+  \texttt{chmod u+xmeinskript}
+\item Das Verzeichnis, in dem das Skript zu finden ist, muss im
+  Suchpfad eingetragen sein - siehe: \\
+  \texttt{echo \$PATH}\\
+  Ist das nicht der Fall, so ist die Angabe des absoluten oder
+  relativen Pfades zur Ausführung nötig:\\
+  \texttt{/home/fred/meinskript}\\
+  oder:\\
+  \texttt{./meinskript}
+\end{itemize}
+
+Achtung: Shellskripts sind kritisch bezüglich der Formatierung (Leerzeichen, Zeilenumbruch)!
+
+\subsection{Shellvariablen}
+Kennzeichen von interpretierten Sprachen ist u.a. die Speicherung von
+Variablen in Form von Zeichenketten. 
+
+\subsubsection{Definition, Ausgabe, Löschen}
+\begin{itemize}
+\item Lokale Variablen werden so definiert:\\
+\texttt{variable=100}\\
+\texttt{variable='Wien ist anders'} (Quoting wegen Leerzeichen!)\\
+\texttt{pi=3.14}
+
+\item Globale Variablen (Umgebungsvariablen, environment variables) werden
+an Kindprozesse weitergegeben. Lokale werden zu globalen Variablen
+mit:
+\texttt{export variable}\\
+oder gleich bei der Definition mit
+\texttt{export variable=100}
+
+\item Anzeigen des Wertes einer Variablen mit:
+\texttt{echo \$variable}\\
+Die ausführlichere (und sichere) Schreibweise dafür ist: 
+\texttt{echo \$\{variable\}}\\
+
+Beispiel:\\
+\texttt{gruss=''hallo ''}\\
+\texttt{echo \$grussleute} ...ist leer, weil andere Variable\\
+\texttt{echo \$\{gruss\}leute} ... ergibt ``hallo leute'' 
+
+\item Anzeigen aller globalen Variablen:
+\texttt{printenv}
+
+\item Anzeigen aller (globalen und lokalen) Variablen:
+\texttt{set}
+
+\item Löschen einer Variable:\\
+\texttt{unset variable}
+\end{itemize}
+
+\subsubsection{Einige reservierte Shellvariablen}
+\begin{tabular}{|l|l|}
+\hline
+\texttt{\$?} & Rückgabewert (return) des letzten Kommandos\\
+\texttt{\$!} & PID des letzten Hintergrundkommandos\\
+\texttt{\$\$} & PID der aktuellen Shell\\
+\texttt{\$0} & Name des gerade ausgeführten Shell-Programmes\\
+\texttt{\$\#} & Anzahl der übergebenen Parameter (in C: argc)\\
+\texttt{\$1...\$9} & Werte der übergebenen Parameter (in C: argv)\\
+\texttt{\$?} & Rückgabewert (return) des letzten Kommandos\\
+\texttt{\$*} & Übergebene Parameter als ein String\\
+\texttt{\$\makeatletter @} & Übergebene Parameter als ein Array\\
+\hline
+\end{tabular} 
+
+Vom System in der Konfiguration gesetzte Variablen sind z.B
+\texttt{\$PATH, \$UID, \$PS1, \$PWD, \$IFS}.
+
+\subsubsection{Einlesen von Kommandozeilenparametern aus der Konsole}
+Die beim Aufruf eines Skripts angegebenen Optionen werden der Reihe nach
+den Variablen \$1, \$2 usw. zugeordnet. Alternativ dazu kann mit ''shift''
+die Parameterliste verschoben werden, sodass die jeweils nächste Option
+immer in \$1 steht:
+\begin{verbatim}
+#!/bin/sh
+echo "Alle Parameter:"
+count=1
+while [ $# -gt 0 ] ; do
+        echo "${count}. Parameter = $1"
+        shift
+        count=$((count+1))
+done
+\end{verbatim}
+
+\subsubsection{Einlesen mit read}
+\begin{itemize}
+\item Einlesen mehrerer Variablen von der Konsole:
+\texttt{read vorname familienname}\\
+...und die dazugehörige Ausgabe mit:
+\texttt{echo \$vorname \$familienname}
+
+\item Das gleiche unter Verwendung eines Arrays:
+\texttt{read -a namen}\\
+...und die Ausgabe:
+\texttt{echo \$\{namen[0]\} \$\{namen[1]\}}
+
+\item Einlesen aus einer Datei, in der die Felder durch '':'' getrennt
+sind unter Verwendung des IFS (internal field separator):
+\begin{verbatim}
+#!/bin/sh
+IFS=":"
+while read -a fields
+do
+        echo ${fields[@]}
+done < /etc/passwd
+\end{verbatim}
+
+Wenn read mit einer Pipe verwendet wird, öffnet es eine eigene Subshell.
+Daher muss auch der Ausgabebefehl durch Klammerung in die Subshell
+miteinbezogen werden - andernfalls wären die Variablen leer:
+\begin{verbatim}
+#!/bin/sh
+ADDR=`/sbin/ifconfig | grep eth -n1 | grep inet | cut -d: -f2 | \
+     cut -d" " -f1`
+echo $ADDR |  (IFS="."; read -a felder; echo ${felder[@]})
+\end{verbatim}
+\end{itemize}
+
+\subsubsection{Parametersubstitution mit Beispielen}
+\texttt{pfad=''/home/fred/datei.txt.gz''} ...Variable ``pfad'' wird
+gesetzt
+
+\texttt{echo \$\{pfad\#*/\}}\\
+liefert home/fred/datei.txt.gz (Führender Schrägstrich entfernt)
+
+\texttt{echo \$\{pfad\#\#*/\}}\\
+liefert datei.txt.gz - gleiche Funktionalität wie 
+\texttt{basename \$pfad}
+
+\texttt{echo \$\{pfad\%/*\}}\\
+liefert /home/fred
+
+\texttt{echo \$\{pfad\%\%/*\}}\\
+eliminiert die größtmögliche Zeichenkette vom Ende weg, also alles
+
+\texttt{echo \$\{pfad:-nix\}}\\
+liefert /home/fred/datei.txt.gz\\
+\texttt{unset pfad} ...Variable ist jetzt leer\\
+\texttt{echo \$\{pfad:-nix\}}\\
+liefert ``nix''
+
+
+\subsection{Kontrollstrukturen/Verzweigungen}
+\subsubsection{if}
+\begin{verbatim}
+if [ $x -ne 3 ] ; then
+   echo ''falscher Wert''
+   exit 1
+fi
+\end{verbatim}
+
+Der Strichpunkt kann wegfallen, wenn \texttt{then} in der nächsten Zeile steht:
+\begin{verbatim}
+if [ $x -ne 3 ] 
+then
+   echo "falscher Wert"
+   exit 1
+fi
+\end{verbatim}
+
+Die eckigen Klammern sind eine abgekürzte Schreibweise für:
+
+\begin{verbatim}
+if test $x -ne 3  ; then
+   echo "falscher Wert"
+   exit 1
+fi
+\end{verbatim}
+
+\textit{Hinweis: Vergleichsoperatoren siehe ``man test''}
+
+\subsubsection{case}
+\begin{verbatim}
+case $eingabe in
+   s)
+      echo Start
+      ;;
+   [eqEQ])
+      echo Ende
+      exit 0
+      ;;
+   *)
+      echo "falsche Eingabe!"
+      ;;
+esac
+\end{verbatim}
+Sobald eine Alternative zutrifft, wird die case-Struktur verlassen (im
+Gegensatz zur Programmiersprache ''C'', wo dieses Verhalten durch ein
+explizites ''break'' erzwungen werden muss).
+
+
+\subsubsection{Schleifen: while, until,for}
+\begin{verbatim}
+counter=0
+while [ $counter -lt 3 ] ; do
+   echo $counter
+   counter=$[$counter+1]
+done
+\end{verbatim}
+
+Negative Formulierung mit until:
+\begin{verbatim}
+counter=0
+until [ $counter -gt 3 ] ; do
+   echo $counter
+   counter=$[$counter+1]
+done
+\end{verbatim}
+
+
+Iteration über Werte aus einer Liste:
+\begin{verbatim}
+for opsys in Windows Linux MacOS; do
+   echo $opsys 
+done
+\end{verbatim}
+
+Dateien umbenennen (Einzeiler): 
+\begin{verbatim}
+for $filename in *.doc; do mv $filename ${filename%.*}.bak; done
+\end{verbatim}
+\textit{Auf diese Weise kann ein Skript mit der selben Funktion wie
+  der DOS-Befehl move *.doc *.bak realisiert werden. (mv *.doc *.bak
+  funktioniert unter Unix nicht, weil die Shell und nicht das Programm
+  mv die Wildcards erweitert. Mit unkritischen Dateien ausprobieren!)}
+
+Ohne \texttt{in} liest \texttt{for} die Argumente der Eingabezeile.Mit
+\texttt{break} wird aus der Schleife ausgestiegen, mit
+\texttt{continue} geht es direkt weiter zur nächsten Iteration.
+
+\subsubsection{Rückgabewerte} 
+Ordentliche Unix-Programme geben bei erfolgreicher Beendigung 0
+(Null), bei einem Fehler einen von 0 verschiedenen Wert (Fehlercode)
+zurück. Aufrufende Programme können diesen Rückgabewert auswerten und
+darauf reagieren. Beim Shellskript erzeugt man diese Werte mit:\\
+\texttt{exit 0} bzw. \texttt{exit 1}
+
+\subsubsection{Verkettung von Kommandos}
+\begin{itemize}
+\item{Hintereinanderausführen}\\
+Durch Strichpunkte '';'' getrennte Befehle werden nacheinander
+ausgeführt:\\
+\texttt{date; who}\\
+Um die Ausgabe beider Befehle in eine Datei umzuleiten, wird durch
+Klammern die Ausführung in einer Subshell erzwungen:\\ 
+\texttt{(date; who) >  heute\_da}\\
+
+\item{UND-Verknüpfung}\\
+Das nächste Kommando wird nur ausgeführt, wenn das vorherige erfolgreich war.\\
+Beispiel: Konfiguration, Kompilieren und Installation eines im Quellcode 
+vorliegenden Programmes.\\
+\texttt{./configure \&\& make \&\& make install}\\
+
+\item{EXOR-Verknüpfung}\\
+Das nächste Kommando wird nur ausgeführt, wenn das vorherige erfolglos war.\\
+\texttt{grep Franz namensliste  || echo ''Franz nicht vorhanden''}\\
+\end{itemize}
+
+\section{Rechnen mit der Shell}
+Die Bash erlaubt das Rechnen mit allen Grundrechenarten (+,-,*,/)
+einschließlich des Modulo-Operators (\%) sowie mit Inkrement und 
+Dekrement (++, --). Ebenfalls erlaubt sind Vergleichsoperatoren wie in C. Zur
+Auswertung eines arithmetischen Ausdruckes existieren mehrere
+Syntaxvarianten, am einfachsten und sichersten in Bezug auf die 
+Behandlung von Sonderzeichen ist die doppelte Klammerung:
+
+\begin{verbatim}
+#!/bin/sh
+echo "Alle Parameter:"
+count=1
+while [ $# -gt 0 ] ; do
+	echo "${count}. Parameter = $1"
+	shift
+	count=$((count+1))
+done
+\end{verbatim}
+
+\section{Geordneter Rückzug mit ''trap''}
+Beim gewaltsamen Beenden von Skripts, z.B. mit ''kill'' oder 
+\keys{\texttt{Ctrl}}-C können eventuell notwendige Aufräumarbeiten am
+Ende des Skripts nicht mehr stattfinden, sodass temporäre Files etc. 
+übrigbleiben. Mit ''trap'' lassen sich Aktionen definieren, die beim Abbruch
+ausgeführt werden. \texttt{trap -l} zeigt alle Signale und deren Nummern an.
+\begin{verbatim}
+#!/bin/sh
+
+# Funktionsdefinition:
+ende()
+{
+        echo "Programm beendet"
+        exit 0
+}
+
+# Funktion ende wird bei CTRL-C aufgerufen
+trap 'ende' SIGINT
+
+while true ; do
+        echo "warte..."
+        sleep 10
+done
+\end{verbatim}
+
+
+\end{document}
+
