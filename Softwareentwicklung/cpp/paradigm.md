@@ -28,7 +28,7 @@ sort: 1
 - Beispiel: SQL
 
 
-## *Codebeispiele Zahlenraten in verschiedenen Sprachen
+## *Codebeispiele Zahlenraten in verschiedenen Sprachen*
 <https://github.com/brendangregg/GuessingGame>
 
 <https://gist.github.com/djanatyn/1360693>
