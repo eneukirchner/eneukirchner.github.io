@@ -31,7 +31,7 @@ sort: 2
   
   `git push`
   
-  (`git push origin main`- origin: Speicherort am Server, main: branch)
+  oder: `git push origin main` (origin: Speicherort am Server, main: branch)
 
  ## github - Authentifizierung für `push` schlüsselbasiert
  
