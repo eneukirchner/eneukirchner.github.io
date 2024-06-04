@@ -33,10 +33,9 @@ sort: 2
   
   (`git push origin main`- origin: Speicherort am Server, main: branch)
 
- ## github - Authentifizierung für `push`
+ ## github - Authentifizierung für `push` schlüsselbasiert
  
-- Schlüsselbasiert
-  - `ssh-keygen` in der Konsole, unter `.ssh` findet sich dann eine Datei `*.pub`. Inhalt auf Github->Settings->SSH and GPG keys in das Feld, das beim Drücken von "New Key" aufgeht, hineinkopieren.
-  - `git remote add origin git@github.com:<accountname>/<repository-name>`
+- `ssh-keygen` in der Konsole, unter `.ssh` findet sich dann eine Datei `*.pub`. Inhalt auf Github->Settings->SSH and GPG keys in das Feld, das beim Drücken von "New Key" aufgeht, hineinkopieren.
+- `git remote add origin git@github.com:<accountname>/<repository-name>`
 
 
