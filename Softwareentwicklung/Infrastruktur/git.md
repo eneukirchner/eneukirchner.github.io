@@ -29,6 +29,7 @@ sort: 2
 
 - Auf github hochladen:
   `git push`
+  
   (`git push origin main`- origin: Speicherort am Server, main: branch)
 
  ## github - Authentifizierung für `push`
