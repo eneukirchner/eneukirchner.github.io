@@ -92,6 +92,10 @@ Portscanner::Portscanner(int argc, char* argv[], QObject *parent) : QObject(pare
 ## 3. HTTP-Client
 Das Programm arbeitet ebenfalls im Terminal und gibt die gesamte Antwort des (unverschlüsselten) HTTP-Servers aus. Qt-Creator-Setup und *.pro siehe oben.
 
+*(Ein lokaler Webserver kann gestartet werden, indem in einem Verzeichnis, das ein `index.html` enthält, `python -m http.server` aufgerufen wird. Abruf der Seite im Browser mit `http://localhost:8000`)*
+
+
+
 ### main.cpp
 ```cpp
 #include <QCoreApplication>
@@ -194,15 +198,13 @@ int main(int argc, char *argv[])
 #define MIRRORSERVER_H
 
 #include <QObject>
-#include <QTcpSocket>
 #include <QTcpServer>
 
-const int PORT = 5000;
 class MirrorServer : public QObject
 {
     Q_OBJECT
 public:
-    explicit MirrorServer(QObject *parent = nullptr);
+    explicit MirrorServer(int port = 8000, QObject *parent = nullptr);
     void start();
 
 signals:
@@ -214,7 +216,7 @@ public slots:
 
 private:
     QTcpServer* m_server;
-    QTcpSocket* m_socket;
+    int m_port;
 };
 
 #endif // MIRRORSERVER_H
@@ -222,48 +224,58 @@ private:
 ### mirrorserver.cpp
 ```cpp
 #include "mirrorserver.h"
+#include <QTcpSocket>
 #include <QDebug>
 
-MirrorServer::MirrorServer(QObject *parent) : QObject(parent)
+MirrorServer::MirrorServer(int port, QObject *parent) : 
+    QObject(parent),
+    m_server(new QTcpServer(this)),
+    m_port(port)
 {
-    m_server = new QTcpServer(this);
     connect(m_server, &QTcpServer::newConnection, this, &MirrorServer::newConnection);
+    qDebug() << "Server started!";
 }
 
 void MirrorServer::start()
 {
-    if (!m_server->listen(QHostAddress::Any, PORT))
+    if (!m_server->listen(QHostAddress::Any, m_port))
         throw m_server->errorString(); // happens when PORT already in use or privileged
 }
 
 // when connected from client
 void MirrorServer::newConnection()
 {
-    m_socket = m_server->nextPendingConnection(); 
-    connect(m_socket, &QTcpSocket::disconnected, this, &MirrorServer::clientDisconnect);
-    connect(m_socket, &QTcpSocket::readyRead, this, &MirrorServer::serverRead);
+    QTcpSocket* clientsocket = m_server->nextPendingConnection(); 
+    connect(clientsocket, &QTcpSocket::disconnected, this, &MirrorServer::clientDisconnect);
+    connect(clientsocket, &QTcpSocket::readyRead, this, &MirrorServer::serverRead);
 }
 
-// connection is closed by client
+// connection is closed by client: cleanup
 void MirrorServer::clientDisconnect()
 {
-    m_socket->close(); 
+    QTcpSocket* clientsocket = qobject_cast<QTcpSocket *>(sender());
+    if (clientsocket)
+        clientsocket->deleteLater(); 
 }
 
 void MirrorServer::serverRead()
 {
     qDebug() << "serverRead";
+    QTcpSocket* clientsocket = qobject_cast<QTcpSocket *>(sender());
+    if (!clientsocket)
+        return;
 
-    while (m_socket->bytesAvailable()) {
-        QByteArray msg = m_socket->readAll();
-        qDebug() << msg;
-        std::reverse(msg.begin(), msg.end());
-        m_socket->write(msg);
-    }
+    QTextStream in(clientsocket);
+    QString msg = in.readAll();
+    qDebug() << msg;
+
+    QTextStream out(clientsocket);
+    std::reverse(msg.begin(), msg.end());
+    out << msg << "\n";
+    clientsocket->flush();
+    
 }
 ```
-*Anmerkung: Abbruch des Programmes mit <kbd>Strg</kbd> + <kbd>C</kbd> führt zu einer Crash-Meldung im QtCreator. 
-Lösungsvorschläge: <https://stackoverflow.com/questions/2300401/qapplication-how-to-shutdown-gracefully-on-ctrl-c>*
 
 ## Übungsbeispiel
 Programmiere einen HTTP-Server unter Verwendung des oben angeführten Mirrorserver-Beispiels.   
