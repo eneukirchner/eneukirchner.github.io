@@ -28,6 +28,7 @@ sort: 2
   `git commit -m "new file"`
 
 - Auf github hochladen:
+  
   `git push`
   
   (`git push origin main`- origin: Speicherort am Server, main: branch)
