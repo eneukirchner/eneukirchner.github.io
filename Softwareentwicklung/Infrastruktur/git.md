@@ -15,7 +15,7 @@ sort: 2
 
   `git clone https://github.com/<username>/<reponame>`
 
-- Im beim Clonen erzeugten Verzeichnis Dateien/Verzeichnisse erstellen oder editieren. Dann Änderungen anzeigen:
+- Im beim Clonen erzeugten Verzeichnis (lokales Repository)  Dateien/Verzeichnisse erstellen oder editieren. Dann Änderungen anzeigen:
 
   `git status`
 
