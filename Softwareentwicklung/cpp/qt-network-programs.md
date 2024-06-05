@@ -115,6 +115,9 @@ int main(int argc, char *argv[])
 #include <QTcpSocket>
 #include <QAbstractSocket>
 
+const int HTTP_PORT = 80; // standard port
+const int TIMEOUT = 2000; // sec
+
 class MyTcpClient : public QObject
 {
     Q_OBJECT
@@ -127,7 +130,7 @@ public slots:
 
 private:
     QTcpSocket *m_socket;
-    QByteArray m_hostname;
+    QString m_hostname;
 };
 ```
 
@@ -137,18 +140,18 @@ private:
 #include <QDebug>
 #include <QCoreApplication>
 
-MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) : QObject(parent)
-{
-    m_hostname = argv[1];
-    unsigned short port = 80;
-    m_socket = new QTcpSocket(this);
+MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) :
+    QObject(parent),
+    m_socket(new QTcpSocket(this)),
+    m_hostname(argv[1])
 
+{
     // Signal ->  Slot-Verbindung
     connect(m_socket, &QTcpSocket::connected, this, &MyTcpClient::connected);
     connect(m_socket, &QTcpSocket::readyRead, this, &MyTcpClient::readyRead);
 
-    m_socket->connectToHost(m_hostname, port); // TCP Connect
-    if (!m_socket->waitForConnected(5000)) {
+    m_socket->connectToHost(m_hostname, HTTP_PORT); // TCP Connect
+    if (!m_socket->waitForConnected(TIMEOUT)) {
         qDebug() << "Connect failed!";
         exit(1);
     }
@@ -156,14 +159,15 @@ MyTcpClient::MyTcpClient(int argc, char* argv[], QObject *parent) : QObject(pare
 
 void MyTcpClient::connected()
 {
-    // normgerechter HTTP Request zum Server
-    m_socket->write("GET / HTTP/1.1\r\nHost:" + m_hostname + "\r\n\r\n");
+    QTextStream request(m_socket);
+    request << "GET / HTTP/1.1\r\nHost:" + m_hostname + "\r\n\r\n";
 }
 
 void MyTcpClient::readyRead()
 {
     // HTTP-Antwort vom Server
-    qDebug() << m_socket->readAll();
+    QTextStream answer(m_socket);
+    qDebug() << answer.readAll();
     m_socket->disconnectFromHost();
     QCoreApplication::quit();
 }
