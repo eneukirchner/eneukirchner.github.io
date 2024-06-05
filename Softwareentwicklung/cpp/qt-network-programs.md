@@ -288,7 +288,7 @@ Tipps:
 - Protokoll: Der Client sendet einen Request. Dieser kann vom Server gelesen werden und muss dann nicht weiter
   bearbeitet werden. Unmittelbar danach sendet der Server dem Client Header und Inhalt der Seite:  
 ```html
-HTTP/1.1 200 OK\r\n\r\n<html><body><h1>Hi BULME</h1></body></html>
+HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><body><h1>Hi BULME</h1><br></body></html>
 ```  
 - Gemäß HTTP schließt der Server unmittelbar nach einer Client-Abfrage den Socket (im Gegensatz zum obigen Beispiel, wo der Client die Verbindung abbricht).
 
