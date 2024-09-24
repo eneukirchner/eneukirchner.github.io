@@ -8,17 +8,23 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{latexsym}
+\usepackage{datetime}
+
 \pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyhead[L]{\nouppercase{\leftmark}} % Section title on the left, not subsection
+\fancyhead[R]{\thepage} % Page number on the right
+
 \parindent0pt
 \parskip1ex
 \setlength{\headheight}{15pt}
 
-
 \title{Linux-Kurzskriptum} 
 \author{Edgar Neukirchner} 
-\date{\today{} BULME Graz-Gösting}
+\newdateformat{mydate}{\the\year.\twodigit\month.\twodigit\day}
+\date{\mydate\today\ Bulme Graz} 
 
-% new command \keys{xxx}
+% new command \keys{xxx} 
 
 \newbox\mybox
 \newcount\laenge
@@ -55,10 +61,8 @@ Um mit dem System tatsächlich arbeiten zu können, sind eine große Anzahl
 von System- und Hilfsprogrammen notwendig; die meisten von ihnen sind
 freie Software (GPL).
 
-Die Zusammenstellung Kernel plus Software heißt Linux-Distribution.
-Beispiele für kommerzielle Distributionen sind SuSE, Ubuntu, Redhat, Mandriva,
-während OpenSuse, Gentoo und Fedora von Entwicklergemeinden, sogenannten
-Communities erstellt werden.
+Die Zusammenstellung Kernel plus Software heißt Linux-Distribution. Distributionen unterscheiden sich im Wesentlichen durch das Veröffentlichungs-Modell (Release model fixed oder rolling) und durch das zur Verwaltung der Software verwendete Programm. Debian, Ubuntu und Mint verwenden den Debian Package Manager, Redhat, Fedora, Suse und Almalinux den von Redhat. Rolling releases wie Arch oder Manjaro sind eher für Entwickler gedacht, die stets brandaktuelle Software benötigen.
+Hinter vielen Distributionen stehen Firmen (Redhat, Suse), die wahlweise freie oder kostenpflichtige Versionen (mit Support und Zertifizierung) anbieten. Reine Community-Distributionen sind beispielsweise Debian Arch Linux.
 
 Linux ist nicht das einzige freie Betriebssystem: FreeBSD, OpenBSD und
 NetBSD sind ebenfalls freie Unix-Derivate, wobei die Entwicklung in
@@ -73,7 +77,7 @@ teilweise ebenfalls BSD-basiert (Darwin).
 \item multiuserfähig (mehrere Benutzer gleichzeitig) 
 \item netzwerkfähig
 \item modular aufgebaut: Benutzer bzw. Administrator können die
-Komponenten frei kombinieren. Graphische Oberfläche (X-Window-System)
+Komponenten frei kombinieren. Graphische Oberfläche (Windowmanager mit Desktopumgebung)
 und Betriebssystem sind völlig voneinander getrennt - ein Programm kann
 so auf einem Rechner gestartet und auf einem anderen angezeigt werden.
 \item offen (Quellcode im Internet verfügbar)
@@ -96,36 +100,27 @@ $, bei Unix der Vorwärts-Schrägstrich /. Unter Unix werden mit $
 Die ``klassische'' Installation einer Linux-Distribution ist üblicherweise
 mit einer Neupartitionierung der Festplatte verbunden. Damit verbunden
 ist das Risiko des versehentlichen Löschens vorhandener Daten - daher
-Backup nicht vergessen! Alternative Installationsmethoden vermeiden
-diesen weitgehenden Eingriff in eine bestehende Installation -
-allerdings  um den Preis von Performance-Verlusten:
+Backup nicht vergessen! Eine Installation als virtualisierter Gast eines vorhandenen Systems vermeidet diese Risiken,allerdings  um den Preis von Performance-Verlusten.
 
+Beispiele für Virtualisierungs-Programme: 
 \begin{itemize}
-\item{Installation in einer virtuellen Maschine}
-Beispiele: VMware / VMplayer (gratis, auch vorkonfiguierte Image-Files
-zum Download erhältlich), VirtualPC (Microsoft), virtualbox (neu, auch
-frei)
-
-\item{cygwin}.
-Unix-System, das direkt in der Windows-Umgebung läuft. Die
-Sicherheitsmerkmale von Unix sind nur teilweise vorhanden, als
-Einzelbenutzer-System dennoch brauchbar. Reichhaltige Software-Auswahl,
-auch graphische Anwendungen (X-Server) 
+\item virtualbox (Gratisversion erhältlich), 
+\item KVM (nur für Linux-Wirtssysteme)
+\item Windows Subsystem for Linux (Windows 11 unterstützt bereits die Grafikausgabe von Linux-Gästen).
 \end{itemize}
 
 \section{Die Shell}
 \subsection{Merkmale der Shell}
 \begin{itemize}
 \item Hauptaufgabe: Weiterleitung der eingegebenen Kommandozeile ans
-Betriebssystem (Kommandozeileninterpreter, vlg. command.com unter DOS)
+Betriebssystem (Kommandozeileninterpreter, vergleiche cmd oder powershell unter Windows)
 \item Kombination von Kommandos, z.B. mit if- oder while-Bedingungen.
 Auf diese Weise können Kommandoeingaben in Form von Shellscripts
 automatisiert werden.
 \item Konfigurierbarkeit, daher Möglichkeit der Erstellung einer
 persönlichen Arbeitsumgebung
 \item Unix ermöglicht dem Benutzer die Auswahl seiner gewünschten Shell,
-die gängigsten sind: bash (Standard-Shell unter Linux) ,csh, tcsh und
-die ksh.  Um herauszufinden, welche Shell gerade verwendet wird, tippt
+die gängigsten sind bash (Standard-Shell unter Linux) und zsh.  Um herauszufinden, welche Shell gerade verwendet wird, tippt
 man in der Konsole \texttt{echo \$SHELL} ein.
 \end{itemize}
 
@@ -134,8 +129,9 @@ man in der Konsole \texttt{echo \$SHELL} ein.
 \hline
 Automatische Kommando-/Dateinamenergänzung: & \keys{TAB} \\
 \hline
-In der Kommando-History blättern:&\keys{$ \uparrow $}\keys{$
-\downarrow $} \\
+In der Kommando-History blättern:&\keys{$ \uparrow $}\keys{$\downarrow $} \\
+\hline
+Inkrementelle Suche in der History: & \keys{Strg}+\keys{R}   \\
 \hline
 Programmabbruch: & \keys{Strg}+\keys{C} \\
 \hline
@@ -154,7 +150,7 @@ alle Files mit Endung doc oder cpp & \texttt{*.\{doc,cpp\}} \\
 \hline
 Quotes (verhindern Interpretation als Sonderzeichen): & \\
 nur nachfolgendes Zeichen: & $ \backslash $  \\
-Folge mit Leer-/Sonderzeichen außer Systemvariablen: & '' '' \\
+String mit Leer-/Sonderzeichen außer Shellvariablen (z.B: \$x): & '' '' \\
 alle Sonderzeichen: & ' ' \\
 \hline
 \end{tabular}
@@ -288,12 +284,12 @@ einer Kurzhilfe; darüberhinaus wird gelegentlich auch bei
 falschen/fehlenden Argumenten oder Optionen eine Kurzanleitung
 angezeigt.
 
-\subsection{Manual-Pages}
+\subsection{Manual Pages}
 Das wichtigste Hilfesystem unter Unix, Aufruf mit: \\
- \texttt{man [GRUPPE] [OPTIONEN] SUCHWORT}.\\
+ \texttt{man [ABSCHNITT] [OPTIONEN] SUCHWORT}.\\
 
 \texttt{SUCHWORT} muss auf jeden Fall angegeben werden, bei fehlender
-\texttt{GRUPPE} wird jene mit der niedrigsten Nummer angezeigt.
+\texttt{ABSCHNITT} wird jene mit der niedrigsten Nummer angezeigt.
 Manual-Pages haben eine einheitliche Syntax, Details unter \texttt{man
 man}. Kommandos, Argumente und Optionen werden folgendermaßen gekennzeichnet:
 
@@ -311,35 +307,18 @@ Kurzbeschreibung eines Befehls.  Mit \texttt{apropos SUCHWORT} werden
 die Kurzbeschreibungen aller Manual-Pages nach \texttt{SUCHWORT}
 durchforstet.
 
-\subsection{info-System}
-Diese Online-Hilfe gibt es nur für GNU-Projekte; es ist eines der ersten
-Hypertextsysteme. Weitere Informationen und Tutorials mit \texttt{info
-info}.
-
-Die wichtigsten Tastenkürzel:
-
-\begin{tabular}{|l|l|}
-\hline
-\texttt{n} & zum nächsten Knoten\\
-\texttt{p} & zum vorherigen (previous) Knoten\\
-\texttt{u} & eine Ebene in der Hierarchie hinauf (up)\\
-\texttt{m} & Menü (mit \keys{TAB} Text vervollständigen)\\
-\texttt{1}...\texttt{9} & zum Menüpunkt 1...9 gehen\\
-\texttt{0} & zum letzten Menüpunkt gehen\\
-\texttt{i} & zum Verzeichnis (index)\\
-\texttt{s} & nach einem Text suchen\\
-\hline
-Querverweise (Links): & \\
-\texttt{f} & dem Link (f)olgen \\
-\texttt{l} & zurück zum (l)etzten Link\\
-\hline
-\end{tabular}
-
 \subsection{Weitere Hilfe}
 Unter Linux sind in der Verzeichnishierarchie unter /usr/share/doc
-teilweise recht ausführliche Hilfedateien vorhanden. Im Internet gibt es
-unter dem Linux Documentation Project http://tldp.org/ HOWTOs, FAQs und
-ganze Bücher rund um Unix und Linux.
+teilweise recht ausführliche Hilfedateien vorhanden. 
+
+\subsection{Online-Quellen}
+\begin{itemize}
+\item Linux Documentation Project http://tldp.org/ mit HOWTOs, FAQs und kompletten Büchern
+
+\item https://tldr.inbrowser.app/
+\item https://cheat.sh (Kommando mit / anhängen, geht auch im Kommandofenster beispielsweise \texttt{curl cheat.sh/ls})
+\item https://overthewire.org/wargames/ (Lernen der shell kann auch Spaß bereiten)
+\end{itemize}
 
 
 \section{Dateien und Verzeichnisse}
@@ -366,7 +345,7 @@ ganze Bücher rund um Unix und Linux.
 |-- sys
 |-- tmp
 |-- usr
-`-- var
+|-- var
 
 \end{verbatim}
 \end{samepage}
@@ -397,7 +376,7 @@ oder zur Verdeutlichung:\\
 \subsection{Dateitypen}
 Unter Unix ist beinahe alles eine Datei, auch Systemressourcen wie
 Speichermedien, Netzwerklaufwerke, Ethernet-Adapter und Mäuse. Der
-Dateityp wird durch bestimmte Flags, aber nicht wie unter DOS durch
+Dateityp wird durch bestimmte Flags, aber nicht wie unter Windows durch
 die Erweiterung bestimmt, d.h. ein ausführbares Programm hat nicht
 notwendigerweise die Form \texttt{programm.exe}. Wenn ein Datei eine
 bestimmte Erweiterung hat, so wird diese vom Anwendungsprogramm (z.B.
@@ -406,6 +385,7 @@ sich der Dateityp durch Eingabe des Befehls:\\
 \texttt{ls -l DATEI} \\
 (Dateityp steht im ersten Feld der Ausgabezeile) oder durch \\
 \texttt{file DATEI}. 
+
 
 Die wichtigsten Dateitypen sind (Bsp. jeweils mit der Ausgabe von
 \texttt{ls -ld}):
@@ -429,6 +409,8 @@ Die wichtigsten Dateitypen sind (Bsp. jeweils mit der Ausgabe von
 /dev/cua0}
 \item Fifo (named pipe): \\
 \texttt{prw-r--r--    1 edgar    users           0 2004-10-04 18:06 xx}
+\item Socket (Netzwerk-Endpunkt): \\
+\texttt{srw-rw-rw- 1 root root 0 Sep 24 07:40 /run/cups/cups.sock}
 \end{itemize}
 
 
@@ -470,17 +452,11 @@ oder \\
 \item Operator: + (Rechte geben), - (Rechte wegnehmen), = (Rechte
   setzen)
 \item Rechte: r (read, lesen), w (write, schreiben), x (execute,
-  ausführen, bei Verzeichnissen durchsuchen). Anstelle von x kann s
-  (sticky) stehen, der aufrufende Benutzer erhält die Rechte des
-  Eigentümers bzw. der Gruppe. Achtung: Falls der Eigentümer ''root''
-  heißt, ist das eine gefährliche Sicherheitslücke!
+  ausführen, bei Verzeichnissen durchsuchen). Spezialflags s (setuid oder setgid), t (sticky) siehe Erklärung weiter unten.
 \end{itemize}
 
 In der zweiten Form wird der \texttt{OKTAL-MODUS} wie in der Tabelle
-angedeutet durch drei Oktalziffern gesetzt. Im Fall des sticky bit
-wird 4 (für den Eigentümer) oder 2 (Gruppe) vorangestellt.  Eine ganze
-Verzeichnishierarchie wird mit der Option \texttt{-R} (rekursiv)
-bearbeitet.
+angedeutet durch drei Oktalziffern gesetzt. 
 
 Die Zuordnung von Dateien zu einem Eigentümer erfolgt durch: \\
 \texttt{chown EIGENTÜMER DATEI...}
@@ -488,12 +464,26 @@ Die Zuordnung von Dateien zu einem Eigentümer erfolgt durch: \\
 Zuordnung zu einer Gruppe mit:\\
 \texttt{chgrp GRUPPE DATEI...}
 
+Eine ganze Verzeichnishierarchie wird mit der Option \texttt{-R} (rekursiv)
+bearbeitet.
+
+Zusätzlich gibt es noch 3 Spezialbits, die optional der Dreiergruppe vorangestellt werden können, in Oktalzahlen ausgedrückt bedeuten sie:
+
+\texttt{4000} $ \rightarrow $ setuid: Datei wird mit den Rechten des Besitzers ausgeführt \\
+Beispiel: \texttt{-rwsr-xr-x 1 root root 59976 Feb  6  2024 /bin/passwd} \\
+Achtung: wenn der Besitzer \texttt{root} heißt, kann bei falscher Anwendung oder Programmierfehlern eine gefährliche Sicherheitslücke entstehen!
+
+\texttt{2000} $ \rightarrow $ setgid: Datei erhält die Rechte der Gruppe \\
+
+\texttt{1000} $ \rightarrow $ sticky: nur Eigentümer darf Datei löschen \\
+Beispiel: \texttt{drwxrwxrwt 33 root root 20480 Sep 24 14:59 /tmp} \\
+
 Welche Rechte eine Datei standardmäßig hat, lässt sich in der
 Benutzerkonfiguration einstellen durch:\\
 \texttt{umask MODE}
 
 \section{Suchen, finden und ersetzen}
-\subsection{Suchen von Dateien und Verzeichnissen}
+\subsection{Suchen von Dateien und Verzeichnissen im Dateisystem}
 \texttt{find [Pfad...] [Suchkriterium]}\\
 
 Die wichtigsten Spezialfälle (Details siehe Manual Page) anhand
@@ -522,7 +512,11 @@ interpretiert (Quoting).
 Alle Verzeichnisse unterhalb des Heimverzeichnisses vom Benutzer
 \texttt{karl} werden auf \texttt{rwxrwxr-x} gesetzt.
 
-\subsection{Suchen/Ersetzen von Text in Dateien} 
+\texttt{find . -mtime -4 -a -mtime +1} \\
+Finde alle Dateien, die vor weniger als 4 Tagen  und vor mehr als 1 Tag geändert wurden. Die Option \texttt{-a} repräsentiert ein logisches AND, fehlt sie, wird automatisch diese Verknüpfung angenommen.
+
+
+\subsection{Suchen/Ersetzen von Text innerhalb von Dateien} 
 \subsubsection{Reguläre Ausdrücke (regular expressions)}
 \begin{tabular}{|l|l|}
 \hline
@@ -579,11 +573,11 @@ gequotet)\\
 \texttt{grep [OPTION]... MUSTER [DATEI] ...} \\
 Als \texttt{MUSTER} dienen sogenannte ''reguläre Ausdrücke''
 Falls im \texttt{MUSTER} Sonderzeichen bzw. Wildcards vorkommen,
-müssen sie unter Hochkommata gestellt werden (quoting), da sie ansonsten
+müssen sie unter Hochkommata gestellt werden (quoting, z.B: \texttt{'Hand(y|ie)s'}), da sie ansonsten
 bereits von der shell und nicht erst von grep ausgewertet werden. 
 
-\textit{Hinweis: einige Ausdrücke funktionieren nur in der erweiterten
-Version \texttt{egrep}}
+\textit{Hinweis: einige Ausdrücke (oben beispielsweise die letzten 5 Muster) funktionieren nur in der erweiterten
+Version \texttt{grep -E}}
 
 Beispiel:\\
 In einem Verzeichnis befinden sich die Dateien\\ 
@@ -598,16 +592,16 @@ Das wird aber von der shell interpretiert als\\
 während \texttt{[a-z]*} eigentlich nur das an \texttt{grep} übergebene
 Suchmuster sein sollte. Um die Interpretation der Metazeichen im
 Suchmuster durch grep zu erzwingen, muss daher\\
-\texttt{grep ''[a-z]*'' kap[12]}\\
+\texttt{grep '[a-z]*' kap[12]}\\
 eingegeben werden.\\
 
-\subsubsection{Suchen und ersetzen mit dem Stream-Editor ''sed''}
+\subsubsection{Suchen und ersetzen mit dem Stream-Editor ``sed''}
 
 \texttt{sed [-e 'Befehle'] [ DATEI]} \\
 Wird keine Datei angegeben, liest sed aus der Standardeingabe.\\
 
-Beispiel:Jedes Mal, wenn im File ''hallo.txt'' das Wort ''Windows'' vorkommt,
-soll dieses durch ''Linux'' ersetzt werden. (Der Schalter ''g'' für ''global''
+Beispiel: Jedes Mal, wenn im File ``hallo.txt'' das Wort ``Windows''  vorkommt,
+soll dieses durch ``Linux'' ersetzt werden. (Der Schalter ``g'' für ``global''
 bewirkt, dass das Wort auch ersetzt wird, wenn es in einer Zeile mehrmals vorkommt).
 \begin{verbatim}
 sed -e 's/Windows/Linux/' hallo.txt
@@ -635,6 +629,8 @@ for name in *.$EXTENSION ; do
         cp $name $backup
 done
 \end{verbatim}
+
+\textit{In der Option nach dem \texttt{sed} - Kommando müssen doppelte Anführungszeichen gesetzt werden, damit der Inhalt der Variablen \texttt{EXTENSION} ausgegeben wird.}
 
 \section{Prozesse}
 \subsection{Welcher Prozesse laufen?}
