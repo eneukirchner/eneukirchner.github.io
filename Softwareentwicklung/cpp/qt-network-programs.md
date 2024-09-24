@@ -236,6 +236,7 @@ MirrorServer::MirrorServer(int port, QObject *parent) :
     m_server(new QTcpServer(this)),
     m_port(port)
 {
+    start();
     connect(m_server, &QTcpServer::newConnection, this, &MirrorServer::newConnection);
     qDebug() << "Server started!";
 }
