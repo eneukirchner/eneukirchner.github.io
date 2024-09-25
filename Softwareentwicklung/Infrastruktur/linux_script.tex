@@ -817,7 +817,7 @@ Grundvoraussetzungen zum Ausführen eines Shellskripts:
   \texttt{\#! /bin/bash}\\
   Das gleiche für Python: \\
   \texttt{\#! /usr/bin/python}\\
-  oder etwas etwas systemunabhängiger geschrieben, wobei berücksichtigt wird, dass Pfad zum Interpreter von   System zu System variieren kann: \\
+  oder etwas etwas systemunabhängiger geschrieben, wobei berücksichtigt wird, dass der Pfad zum Interpreter von   System zu System variieren kann: \\
   \texttt{\#! /usr/bin/env python}\\
 \item Der Benutzer muss das Skript ausführen können. Unter Unix
   geschieht das nicht durch Erkennen einer Dateinamen-Erweiterung wie
@@ -850,14 +850,14 @@ Variablen in Form von Zeichenketten.
 \item Globale Variablen (Umgebungsvariablen, environment variables) werden
 an Kindprozesse weitergegeben. Lokale werden zu globalen Variablen
 mit:
-\texttt{export variable}\\
+\texttt{export x}\\
 oder gleich bei der Definition mit
-\texttt{export variable=100}
+\texttt{export x=100}
 
 \item Anzeigen des Wertes einer Variablen mit:
-\texttt{echo \$variable}\\
+\texttt{echo \$x}\\
 Die ausführlichere (und sichere) Schreibweise dafür ist: 
-\texttt{echo \$\{variable\}}\\
+\texttt{echo \$\{x\}}\\
 
 Beispiel:\\
 \texttt{gruss="hallo "}\\
@@ -1079,7 +1079,7 @@ vorliegenden Programmes.\\
 
 \item{EXOR-Verknüpfung}\\
 Das nächste Kommando wird nur ausgeführt, wenn das vorherige erfolglos war.\\
-\texttt{grep Franz namensliste  || echo ''Franz nicht vorhanden''}\\
+\texttt{grep Franz namensliste  || echo 'Franz nicht vorhanden'}\\
 \end{itemize}
 
 \subsection{Rechnen mit der Shell}
