@@ -1,4 +1,5 @@
-remote_theme: rundocs/jekyll-rtd-theme
+# remote_theme: rundocs/jekyll-rtd-theme
+remote_theme: https://github.com/JV-conseil/jekyll-theme-read-the-docs
 readme_index:
   with_frontmatter: true
 
