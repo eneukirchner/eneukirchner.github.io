@@ -3,6 +3,6 @@ sort: 1
 ---
 
 # Linux-Grundlagen
-[Linux-Skriptum](./linuxskriptum.pdf)
+[Linux-Skriptum](./linux_script.pdf)
 
 
