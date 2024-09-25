@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 
-\usepackage{ngerman} 
+% \usepackage{ngerman} 
+\usepackage[german]{babel} 
 \usepackage{ucs} 
 \usepackage[utf8x]{inputenc} 
 \usepackage{vmargin}
@@ -439,11 +440,10 @@ oktal: & 7 & 5 & 5 \\
 Eigentümer der Datei ist \texttt{kurs}, die Gruppe mit Zugriffsrechten
 heißt in diesem Beispiel \texttt{users}.
 
-Gesetzt werden die Dateirechte mit:\\ 
+Gesetzt werden die Dateirechte mit:
 \texttt{chmod [OPTION]... MODUS[,MODUS]... DATEI...}
 
-oder \\
-\texttt{chmod [OPTION]... OKTAL-MODUS DATEI...}\\
+oder \texttt{chmod [OPTION]... OKTAL-MODUS DATEI...}\\
 
 \texttt{MODUS} besteht aus 3 Teilen:
 \begin{itemize}
@@ -479,7 +479,7 @@ Achtung: wenn der Besitzer \texttt{root} heißt, kann bei falscher Anwendung ode
 Beispiel: \texttt{drwxrwxrwt 33 root root 20480 Sep 24 14:59 /tmp} \\
 
 Welche Rechte eine Datei standardmäßig hat, lässt sich in der
-Benutzerkonfiguration einstellen durch:\\
+Benutzerkonfiguration einstellen durch:
 \texttt{umask MODE}
 
 \section{Suchen, finden und ersetzen}
@@ -624,13 +624,17 @@ Backups anlegen:
 #!/bin/sh
 EXTENSION="txt"
 for name in *.$EXTENSION ; do
-        backup=`echo $name | sed -e "s/\.$EXTENSION/\.bak/"`
+        backup=$(echo $name | sed -e "s/\.$EXTENSION/\.bak/")
         echo "$name -> $backup"
         cp $name $backup
 done
 \end{verbatim}
 
-\textit{In der Option nach dem \texttt{sed} - Kommando müssen doppelte Anführungszeichen gesetzt werden, damit der Inhalt der Variablen \texttt{EXTENSION} ausgegeben wird.}
+In der Option nach dem \texttt{sed} - Kommando müssen doppelte Anführungszeichen gesetzt werden, damit der Inhalt der Variablen \texttt{EXTENSION} ausgegeben wird.
+
+Der Ausdruck \texttt{backup=\$(......)} weist der Variable backup den Inhalt der Ausgabe des Kommandos innerhalb der Klammern zu.
+
+
 
 \section{Prozesse}
 \subsection{Welcher Prozesse laufen?}
@@ -650,65 +654,64 @@ init-+-acpid
      |-kdeinit-+-artsd
      |         |-3*[kdeinit]
      |         |-kdeinit---bash-+-xdvi.bin
-     |         |                `-xemacs
+     |         |                |-xemacs
      |         |-kdeinit---bash---ssh
-     |         `-kdeinit---bash---pstree
+     |         |-kdeinit---bash---pstree
 \end{verbatim}
 \end{samepage}
 
-Laufende Prozesse werden angezeigt mit:\\
+Laufende Prozesse werden angezeigt mit: 
 \texttt{ps}\\
 (Ausgabeformat: \texttt{PID}...Prozessnummer, \texttt{CMD}...Programmname)
 
 Prozesse, die nicht aus einem Terminalfenster heraus gestartet werden
-(sondern z.B. aus dem KDE-Startmenü), erscheinen erst bei Eingabe von:\\
+(sondern z.B. aus dem KDE-Startmenü), erscheinen erst bei Eingabe von:
 \texttt{ps x}\\
 \textit{(Hinweis: die Optionen werden hier ohne führendes - angegeben,
   da ps die BSD-Syntax verwendet)}.
 
 Eine tabellarische Darstellung, die auch Interaktionen des Benutzers
-ermöglicht, liefert:\\
-\texttt{top}\\
+ermöglicht, liefert:
+\texttt{top} 
 (Hilfe mit h, beenden mit q).
 
 
 \subsection{Hintergrund-Prozesse}
-Wird ein Prozess im Hintergrund gestartet, z.B. mit:\\
+Wird ein Prozess im Hintergrund gestartet, z.B. mit:
 \texttt{xeyes \&} \\
-so erscheint in der folgenden Zeile z.B: \\
+so erscheint in der folgenden Zeile z.B: 
 \texttt{[2] 2201} (Format: [JOBNUMMER] PID)
 
-Der Prozess wird in den Vordergrund geholt mit:\\
+Der Prozess wird in den Vordergrund geholt mit:
 \texttt{fg \%JOBNUMMER}
 
-zurück in den Hintergrund geht es mit:\\
-\keys{CTRL}+\keys{Z}\\
+zurück in den Hintergrund geht es mit:
+\keys{CTRL}+\keys{Z}
 \texttt{bg} 
 
-Die Jobnummern der laufenden Hintergrundprozesse liefert:\\
+Die Jobnummern der laufenden Hintergrundprozesse liefert:
 \texttt{jobs}
 
 \subsection{Prozesse beenden}
-Beenden eines nicht reagierenden Programmes:\\
+Beenden eines nicht reagierenden Programmes:
 \texttt{kill PROZESSNUMMER}\\
-Bei Hintergrundprozessen alternativ auch:\\
+Bei Hintergrundprozessen alternativ auch:
 \texttt{kill \%JOBNUMMER}
 
-Beenden aller Programme mit Namen PROGRAMMNAME:\\
+Beenden aller Programme mit Namen PROGRAMMNAME:
 \texttt{killall PROGRAMMNAME}.
 
 Mit \texttt{kill} können als Optionen auch Signale mitgesendet werden.
-Gewaltsames Beenden eines nicht mehr reagierenden Programmes (SIGKILL):\\
+Gewaltsames Beenden eines nicht mehr reagierenden Programmes (SIGKILL):
 \texttt{kill -9 PROZESSNUMMER}
 
 Beenden eines Programmes mit anschließendem Neustart (z.B. zum Einlesen neuer
-Konfigurationsdaten):\\
+Konfigurationsdaten):
 \texttt{kill -HUP PROGRAMMNAME} 
 
 \section{Tools}
 \subsection{Editoren}
-vi ist der auf jedem Unix-System vorhandene Standard-Editor. Er ist
-schnell, klein und benutzerfreundlich auf eine besondere Art - er
+\texttt{vi} oder die verbesserte Version \texttt{vim} ist der auf jedem Unix-System vorhandene Standard-Editor. Er ist schnell, klein und benutzerfreundlich auf eine besondere Art - er
 kennt zwei Betriebsarten, den Kommandomodus (Zustand nach dem Start,
 Befehlseingabe) und den Eingabemodus (insert mode, Texteingabe).\\
 
@@ -734,17 +737,17 @@ Befehlseingabe) und den Eingabemodus (insert mode, Texteingabe).\\
 
 Ein weiterer, in LISP frei programmierbarer Editor ist emacs. Er
 arbeitet mit vielen gängigen Unix-Werkzeugen wie z.B. grep, gcc, make
-zusammen. Neuere Entwicklungen in richtung integrierte Designumgebung
-(IDE) sind kdevelop (Bestandteil des Windowmanagers KDE) und eclipse
+zusammen. Neuere Entwicklungen in Richtung integrierte Designumgebung
+(IDE) sind visual studio code, kdevelop (Bestandteil der Desktop-Umgebung KDE) und eclipse
 (Java-basiert, mit plugins erweiterbar).
 
 \subsection{Compiler}
 Der gcc (GNU compiler collection) zum Kompilieren von C-Programmen
-wird so verwendet:\\
+wird so verwendet:
 \texttt{gcc hello.c} \\
 Das resultierende ausführbare Programm heißt traditionsgemäß \texttt{a.out}.
 
-\texttt{gcc hello.c -o hello}\\
+\texttt{gcc hello.c -o hello} 
 liefert ein Programm namens \texttt{hello}\\
 \textit{(Hinweis: Der Kompiler setzt die Rechte der erzeugten
   Programme automatisch auf e(x)ecutable. Dennoch liefert die Eingabe
@@ -753,10 +756,10 @@ liefert ein Programm namens \texttt{hello}\\
   das aktuelle Verzeichnis gesetzt, daher ist eine Eingabe der Form
   ./hello notwendig)} 
 
-Nur kompilieren ohne zu linken:\\
+Nur kompilieren ohne zu linken:
 \texttt{gcc -c hello.c}
 
-Das entstehende Object File \texttt{hello.o} wird gelinkt mit\\
+Das entstehende Object File \texttt{hello.o} wird gelinkt mit:
 \texttt{gcc -c hello.o}
 
 \subsection{Archivierung mit tar (''tape archiver'')}
@@ -812,23 +815,22 @@ Grundvoraussetzungen zum Ausführen eines Shellskripts:
   konfiguriert hat, dass standardmäßig die csh läuft, wird auf diese
   Weise die Verwendung der bash sichergestellt:\\
   \texttt{\#! /bin/bash}\\
-  Das gleiche für perl:\\
-  \texttt{\#! /usr/bin/perl}\\
-  \textit{Hinweis: Der Pfad zum Interpreter kann von System zu System
-    variieren. Mit ``which perl'' wird der Suchpfad z.B. zu perl
-    angezeigt.}
+  Das gleiche für Python: \\
+  \texttt{\#! /usr/bin/python}\\
+  oder etwas etwas systemunabhängiger geschrieben, wobei berücksichtigt wird, dass Pfad zum Interpreter von   System zu System variieren kann: \\
+  \texttt{\#! /usr/bin/env python}\\
 \item Der Benutzer muss das Skript ausführen können. Unter Unix
   geschieht das nicht durch Erkennen einer Dateinamen-Erweiterung wie
   .bat oder .exe unter DOS (d.h. die Namenswahl ist weitgehend frei)
   sondern durch Setzen der Rechte, z.B. mit: \\
   \texttt{chmod u+xmeinskript}
 \item Das Verzeichnis, in dem das Skript zu finden ist, muss im
-  Suchpfad eingetragen sein - siehe: \\
+  Suchpfad eingetragen sein - siehe: 
   \texttt{echo \$PATH}\\
   Ist das nicht der Fall, so ist die Angabe des absoluten oder
-  relativen Pfades zur Ausführung nötig:\\
-  \texttt{/home/fred/meinskript}\\
-  oder:\\
+  relativen Pfades zur Ausführung nötig:
+  \texttt{/home/fred/meinskript}
+  oder:
   \texttt{./meinskript}
 \end{itemize}
 
@@ -841,8 +843,8 @@ Variablen in Form von Zeichenketten.
 \subsubsection{Definition, Ausgabe, Löschen}
 \begin{itemize}
 \item Lokale Variablen werden so definiert:\\
-\texttt{variable=100}\\
-\texttt{variable='Wien ist anders'} (Quoting wegen Leerzeichen!)\\
+\texttt{x=100}\\
+\texttt{mytext="Wien ist anders"} (Quoting wegen Leerzeichen!)\\
 \texttt{pi=3.14}
 
 \item Globale Variablen (Umgebungsvariablen, environment variables) werden
@@ -858,7 +860,7 @@ Die ausführlichere (und sichere) Schreibweise dafür ist:
 \texttt{echo \$\{variable\}}\\
 
 Beispiel:\\
-\texttt{gruss=''hallo ''}\\
+\texttt{gruss="hallo "}\\
 \texttt{echo \$grussleute} ...ist leer, weil andere Variable\\
 \texttt{echo \$\{gruss\}leute} ... ergibt ``hallo leute'' 
 
@@ -868,8 +870,8 @@ Beispiel:\\
 \item Anzeigen aller (globalen und lokalen) Variablen:
 \texttt{set}
 
-\item Löschen einer Variable:\\
-\texttt{unset variable}
+\item Löschen einer Variable x:
+\texttt{unset x}
 \end{itemize}
 
 \subsubsection{Einige reservierte Shellvariablen}
@@ -934,14 +936,14 @@ Daher muss auch der Ausgabebefehl durch Klammerung in die Subshell
 miteinbezogen werden - andernfalls wären die Variablen leer:
 \begin{verbatim}
 #!/bin/sh
-ADDR=`/sbin/ifconfig | grep eth -n1 | grep inet | cut -d: -f2 | \
-     cut -d" " -f1`
+ADDR=$(/sbin/ifconfig | grep eth -n1 | grep inet | cut -d: -f2 | \
+     cut -d" " -f1)
 echo $ADDR |  (IFS="."; read -a felder; echo ${felder[@]})
 \end{verbatim}
 \end{itemize}
 
 \subsubsection{Parametersubstitution mit Beispielen}
-\texttt{pfad=''/home/fred/datei.txt.gz''} ...Variable ``pfad'' wird
+\texttt{pfad="/home/fred/datei.txt.gz"} ...Variable pfad wird
 gesetzt
 
 \texttt{echo \$\{pfad\#*/\}}\\
@@ -968,7 +970,7 @@ liefert ``nix''
 \subsubsection{if}
 \begin{verbatim}
 if [ $x -ne 3 ] ; then
-   echo ''falscher Wert''
+   echo "falscher Wert"
    exit 1
 fi
 \end{verbatim}
@@ -1052,14 +1054,14 @@ Ohne \texttt{in} liest \texttt{for} die Argumente der Eingabezeile.Mit
 \texttt{break} wird aus der Schleife ausgestiegen, mit
 \texttt{continue} geht es direkt weiter zur nächsten Iteration.
 
-\subsubsection{Rückgabewerte} 
+\subsection{Rückgabewerte} 
 Ordentliche Unix-Programme geben bei erfolgreicher Beendigung 0
 (Null), bei einem Fehler einen von 0 verschiedenen Wert (Fehlercode)
 zurück. Aufrufende Programme können diesen Rückgabewert auswerten und
 darauf reagieren. Beim Shellskript erzeugt man diese Werte mit:\\
 \texttt{exit 0} bzw. \texttt{exit 1}
 
-\subsubsection{Verkettung von Kommandos}
+\subsection{Verkettung von Kommandos}
 \begin{itemize}
 \item{Hintereinanderausführen}\\
 Durch Strichpunkte '';'' getrennte Befehle werden nacheinander
@@ -1080,7 +1082,7 @@ Das nächste Kommando wird nur ausgeführt, wenn das vorherige erfolglos war.\\
 \texttt{grep Franz namensliste  || echo ''Franz nicht vorhanden''}\\
 \end{itemize}
 
-\section{Rechnen mit der Shell}
+\subsection{Rechnen mit der Shell}
 Die Bash erlaubt das Rechnen mit allen Grundrechenarten (+,-,*,/)
 einschließlich des Modulo-Operators (\%) sowie mit Inkrement und 
 Dekrement (++, --). Ebenfalls erlaubt sind Vergleichsoperatoren wie in C. Zur
@@ -1099,7 +1101,7 @@ while [ $# -gt 0 ] ; do
 done
 \end{verbatim}
 
-\section{Geordneter Rückzug mit ''trap''}
+\subsection{Geordneter Rückzug mit ''trap''}
 Beim gewaltsamen Beenden von Skripts, z.B. mit ''kill'' oder 
 \keys{\texttt{Ctrl}}-C können eventuell notwendige Aufräumarbeiten am
 Ende des Skripts nicht mehr stattfinden, sodass temporäre Files etc. 
