@@ -1126,6 +1126,61 @@ while true ; do
 done
 \end{verbatim}
 
+\section{Systemadministration}
+\subsection{Root - Zugang}
+
+Die meisten Administrationstätigkeiten auf globaler Ebene sind nur mittels privilegiertem Account (``Superuser'') erlaubt. Dabei gibt es zwei unterschiedliche Ansätze zum Login:
+
+\begin{itemize}
+  \item Traditionellerweise existiert ein Account \texttt{root}, mit dem zumindest  auf der Textkonsole ein Login am Rechner möglich ist (manche grafischen Desktops blockieren standardmäßig ein root - Login). Bei dieser Konfiguration kann auch von einem gewöhnlichen, nicht privilegierten Account im Terminal auf den User root gewechselt werden - natürlich nur, wenn das Rootpasswort bekannt ist: \texttt{su - } \\
+Der Bindestrich am Ende bewirkt, dass auch die Umgebungsvariablen (Pfade, Spracheinstellungen...) des Root-Users übernommen werden.
+
+Der Nachteil dabei: Jeder privilegierte User hat das gleiche Rootpasswort, daher lässt sich aus dem Log nur schwer im Nachhinein feststellen, wer sich als root angemeldet hat. Außerdem blockieren Dienste zur Fernwartung wie die Secure Shell meistens aus Sicherheitsgründen das direkte Login als root.
+
+\item Auf neueren Systemen erfolgt der root-Zugang meistens über den sudo-Mechanismus (``do as a superuser''). Ein nicht privilegierter User kann durch Voranstellen von \texttt{sudo} Kommandos ausführen, die root-Rechte erfordern. Superuser-Rechte für mehrere Befehle können ebenfalls erlangt werden: \texttt{sudo su -}
+
+Bei der Aufforderung zur Passworteingabe ist dabei das eigene Login-Passwort einzugeben!
+
+Ein User - beispielsweise \texttt{fred} - kann bei dieser Vorgangsweise nur Superuser werden, wenn er in der Gruppe \texttt{sudo} Mitglied ist. Sollte das nicht der Fall sein, kann ein anderer privilegierter User diesen mittels \texttt{usermod -a -G sudo fred} zur Gruppe hinzufügen. Danach muss sich der User aus- und wieder einloggen, um die Änderung wirksam werden zu lassen.
+\end{itemize}
+Arbeiten unter root sind grundsätzlich heikel, weil mit einer einzigen falschen Befehlszeile das gesamte System zerstört werden kann. Sobald die Administrationstätigkeit abgeschlossen ist, sollte die Root-Shell wieder verlassen werden, mit \texttt{exit} oder \keys{CTRL} + D
+
+\subsection{Installation von Programmen}
+Auf globaler Ebene sollen Programme grundsätzlich soweit wie möglich aus den Repositories der verwendeten Distribution mittels Paketmanager installiert werden, um Inkompatibilitäten und Schwierigkeiten beim Update zu vermeiden. 
+
+Für Debian-basierte Distributionen heißt der Paketmanager \texttt{apt}, für Redhat-Abkömmlinge \texttt{yum} oder bei neueren \texttt{dnf}.
+
+Die wichtigsten \texttt{apt}:
+\begin{itemize}
+  \item Liste der installierbaren Pakete aktualisieren: \texttt{apt update}
+  \item alle installierten Pakete aktualisieren: \texttt{apt upgrade}
+  \item Programmpaket (Beispiel firefox) suchen:  \texttt{apt search firefox}\\
+  Die resultierende Ausgabe ist meistens sehr lang. Daher besser \\ 
+  \texttt{apt install firefox | less} \\
+  eingeben, um eine durchsuchbare und scrollfähige Liste zu erhalten. Option: Nur nach Paketen suchen, wo der Suchbegriff im Namen und nicht in der Beschreibung vorkommt: \texttt{apt search firefox --names-only} 
+  \item Paket installieren: \texttt{apt install firefox}
+  \item Paket deinstallieren: \texttt{apt remove firefox}
+  \item Paket deinstallieren inkl. Konfigurationsdateien: \texttt{apt purge firefox }
+  \item Auf dem System bereits installierte Pakete (hier firefox) suchen:\\
+  \texttt {apt list --installed | grep firefox}
+\end{itemize}
+
+\subsection{Hintergrund-Dienste starten}
+Programme, die beim Booten des Rechners ständig im Hintergrund laufen sollen, beispielsweise Serverdienste, werden mittels \texttt{systemd} gesteuert.
+
+Beispiel mit dem Webserver Apache:
+\begin{itemize}
+  \item Starten: \texttt{systemctl start apache2}
+  \item Status anzeigen - wichtig, um Konfigurationsfehler anzuzeigen:\\ \texttt{systemctl status apache2}
+  \item Neustarten, bei Änderung der Konfiguration erforderlich:\\
+   \texttt{systemctl restart apache2}
+  \item Beenden: \texttt{systemctl stop apache2}
+  \item Dienst automatisch bei jedem Reboot starten: \texttt{systemctl enable apache2}
+  \item Dienst nicht automatisch bei jedem Reboot starten: \texttt{systemctl disable apache2}
+\end{itemize}
+Eng mit dem \texttt{systemd} verbunden ist das Programm zur Anzeige der Logs allgemein oder nur für einen bestimmten Dienst:\\
+\texttt{journalctl} bzw.  \texttt{journalctl -u apache2}
+
 
 \end{document}
 
