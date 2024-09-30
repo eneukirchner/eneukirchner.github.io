@@ -1,6 +1,9 @@
 \documentclass[11pt]{article}
 
-% \usepackage{ngerman} 
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref}
+\usepackage{makeidx}
+%\makeindex
+
 \usepackage[german]{babel} 
 \usepackage{ucs} 
 \usepackage[utf8x]{inputenc} 
@@ -314,11 +317,11 @@ teilweise recht ausführliche Hilfedateien vorhanden.
 
 \subsection{Online-Quellen}
 \begin{itemize}
-\item Linux Documentation Project http://tldp.org/ mit HOWTOs, FAQs und kompletten Büchern
+\item Linux Documentation Project \url{http://tldp.org/} mit HOWTOs, FAQs und kompletten Büchern
 
-\item https://tldr.inbrowser.app/
-\item https://cheat.sh (Kommando mit / anhängen, geht auch im Kommandofenster beispielsweise \texttt{curl cheat.sh/ls})
-\item https://overthewire.org/wargames/ (Lernen der shell kann auch Spaß bereiten)
+\item \url{https://tldr.inbrowser.app/}
+\item \url{https://cheat.sh} (Kommando mit / anhängen, geht auch im Kommandofenster beispielsweise \texttt{curl cheat.sh/ls})
+\item \url{https://overthewire.org/wargames/} (Lernen der shell kann auch Spaß bereiten)
 \end{itemize}
 
 
@@ -349,10 +352,24 @@ teilweise recht ausführliche Hilfedateien vorhanden.
 |-- var
 
 \end{verbatim}
+Einige spezielle Verzeichnisse:
+\begin{itemize}
+  \item \texttt{bin} binaries (ausführbare Programme)
+  \item \texttt{dev} devices (Gerätedateien, z.B. Festplatten, Schnittstellen)
+  \item \texttt{etc} systemweite Konfigurationsdateien
+  \item \texttt{home} User-Heimverzeichnisses
+  \item \texttt{lib} libraries (Bibliotheken, Module)
+  \item \texttt{proc} processes (Während des Betriebes dynamisch erzeugte Statusdateien)
+  \item \texttt{root} Heimverzeichnis des Superusers
+  \item \texttt{sbin} system binaries
+  \item \texttt{tmp} Verzeichnis für temporäre Dateien
+  \item \texttt{usr} enthält wiederum \texttt{bin} usw.
+  \item \texttt{var} variable (Inhalte, die von Serverdiensten ausgeliefert werden, logfiles)
+\end{itemize}
 \end{samepage}
 
 \subsection{Navigieren im Dateisystem}
-Einige Verzeichnisse sind besonders gekennzeichnet:\\
+Abkürzungen für bestimmte Verzeichnisse:\\
 
 \begin{tabular}{ll}
 . & das aktuelle Verzeichnis \\
@@ -367,11 +384,11 @@ Benutzers, unter dem man gerade eingeloggt ist.
 Pfadangaben können auf zwei Arten erfolgen:
 \begin{itemize}
 \item absolut (ausgehend vom Wurzelverzeichnis /), z.B: \\
-\texttt{/home/fred/bilder/ferien04/girl.jpg}
+\texttt{/home/fred/bilder/ferien04/vienna.jpg}
 \item relativ (vom aktuellen Verzeichnis aus):\\
-\texttt{bilder/ferien04/girl.jpg}\\
+\texttt{bilder/ferien04/vienna.jpg}\\
 oder zur Verdeutlichung:\\
-\texttt{./bilder/ferien04/girl.jpg}
+\texttt{./bilder/ferien04/vienna.jpg}
 \end{itemize}
 
 \subsection{Dateitypen}
