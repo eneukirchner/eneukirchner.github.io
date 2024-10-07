@@ -1198,6 +1198,41 @@ Beispiel mit dem Webserver Apache:
 Eng mit dem \texttt{systemd} verbunden ist das Programm zur Anzeige der Logs allgemein oder nur für einen bestimmten Dienst:\\
 \texttt{journalctl} bzw.  \texttt{journalctl -u apache2}
 
+\section{Einige nützliche Systemverwaltungs-Kommandozeilen}
+\subsubsection{Speicher}
+\begin{itemize}
+  \item RAM in MB: \texttt{free -m}
+  \item Füllungszustand aller Partitionen anzeigen: \texttt{df -h}
+  \item Den Speicherverbrauch der größten 10 Verzeichnisse, ausgehend vom aktuellen Verzeichnis sortiert anzeigen, wobei auch versteckte Verzeichnisse berücksichtigt werden:\\ \texttt{du -sm  * .* | sort -nr | head}
+  \item Blockgeräte (Festplatten, USB-Disks, etc.) anzeigen: \texttt{lsblk}
+\end{itemize}
+\subsubsection{Netzwerk}
+\begin{itemize}
+  \item IP-Adressen aller Netzwerkkarten in Kurzform: \texttt{ip -br a}
+  \item Route (Gateways): \texttt{ip r}
+  \item Namensauflösung: \texttt{host www.google.com}
+  \item Namensauflösung reverse: \texttt{host 142.250.185.228}
+  \item Alle lokal laufenden TCP-Serverdienste: \texttt{netstat -tl} oder numerisch: \texttt{netstat -tnl}
+  \item Wer ist alles eingeloggt und von wo aus? \texttt{who}
+\end{itemize}
+
+\section{SSH Remote Login}
+Mittels der Secure Shell ist eine verschlüsselte Terminal-Verbindung zu einem entfernten Rechner über das Internet möglich. Gegenüber grafischen Clients wie dem Remotedesktop wird nur wenig Bandbreite benötigt.
+
+Als Client-Software existiert außer dem Terminal (Linux, Mac) auch die Powershell oder Putty (Windows); für mobile Geräte gibt es Apps wie Termux (Android) oder iSH (iOS, mit zusätzlich installierbarer openssh-Erweiterung)
+
+Die Verbindung wird nach dem Schema:\\ \texttt{ssh <username>@<hostname>} aufgebaut, Beispiel:\\ \texttt{ssh fred@meinhost.com}
+
+Zur Authentifizierung gibt es zwei Möglichkeiten:
+\begin{itemize}
+  \item Passwort-basiert: User gibt sein Passwort am Login-Prompt ein.
+  \item Schlüssel-basiert: dazu ist zunächst die Erzeugung eines asymmetrischen Schlüsselpaares (public/private) erforderlich: \texttt{ssh-keygen}
+  
+  Das private gespeicherte Passwort kann optional mit einem Passwort gesichert werden (sinnvoll, wenn andere auf die Daten Zugriff bekommen könnten, z.B. auf USB-Stick).
+
+  Die Dateien werden standardmäßig im Verzeichnis \texttt{.ssh} des jeweiligen Benutzers erzeugt. Zur Übertragung des öffentlichen Passwortes \texttt{*.pub} zum Zielrechenr dient die Zeile:\\ \texttt{ssh-copy-id <username>@<hostname>}
+\end{itemize}
+Wenn der Rechner, von dem aus das Login erfolgt, dem Zielhost noch unbekannt ist, wird explizit gefragt, ob die Verbindung gestartet werden soll (Anwort: \texttt{yes}). Sollte diese Frage später nochmals auftreten, ist Vorsicht angebracht, da es sich möglicherweise um einen gefälschten Zielhost handeln könnte ("Man in the middle").
 
 \end{document}
 
