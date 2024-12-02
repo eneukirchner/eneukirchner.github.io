@@ -25,7 +25,7 @@ Konfigurieren (Beispiel für IPv6 mit https://dynv6.com): `/etc/ddclient.conf`
 
 *Die auf der Seite von dynv6 unter "Installation instructions" gelieferte Konfiguration bezieht sich auf eine ältere Version von ddclient und funktioniert mit der aktuellen (unter Debian 12) nur eingeschränkt!*
 
-```sh
+```
 ssl=yes
 usev6=ifv6, ifv6=wlan0
 usev4=disabled
@@ -39,7 +39,7 @@ mein-super-server.dynv6.net
 Unter `password=` kommt das nach Einrichtung beim Dyndns-Anbieter generierte Token hinein.
 
 Zum Abschluss den Client starten und  so einrichten, dass er bei jedem Systemstart automatisch hochfährt. 
-```sh
+```
 systemctl restart ddclient
 systemctl enable ddclient
 ```
@@ -49,7 +49,7 @@ Im Webinterface des Dyndns-Anbieters sollte dann zum gewählten Hostnamen eine g
 ## Absicherung
 - Installation einer Firewall, wobei nur Web- und SSH-Dienste (zur Wartung) durchgelassen werden:
   
-```sh
+```
 apt install ufw
 
 ufw allow ssh
