@@ -3,7 +3,7 @@ sort: 2
 ---
 
 # Installation Webserver Apache
-
+*Alle Systemkommandos werden mit vorangestelltem `sudo` oder nach Eingabe von `su - ` eingegeben!*
 ## Benötigte Pakete:
 - apache2
 
