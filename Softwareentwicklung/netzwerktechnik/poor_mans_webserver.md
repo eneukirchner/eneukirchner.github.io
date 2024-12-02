@@ -21,7 +21,7 @@ IP-Adressen für Privatkunden sind praktisch immer dynamisch, sie werden also in
 ### Installation des Dyndns-Clients am Webserver
 Paket installieren: `apt install ddclient` Beim Installieren öffnet sich ein Konfigurations-Dialog; hier einfach alle Punkte mit Enter durchgehen, ohne weitere Eingaben.
 
-Konfigurieren (Beispiel für IPv6 mit https://dynv6.com): `/etc/ddclient.conf`
+Konfigurieren (Beispiel für IPv6 mit [dynv6.com](https://dynv6.com)): `/etc/ddclient.conf`
 
 *Die auf der Seite von dynv6 unter "Installation instructions" gelieferte Konfiguration bezieht sich auf eine ältere Version von ddclient und funktioniert mit der aktuellen (unter Debian 12) nur eingeschränkt!*
 
