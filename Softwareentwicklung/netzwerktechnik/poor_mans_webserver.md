@@ -47,7 +47,7 @@ systemctl enable ddclient
 Im Webinterface des Dyndns-Anbieters sollte dann zum gewählten Hostnamen eine gültige Adresse zeigen. Damit ist der Server von außen erreichbar.
 
 ## Absicherung
-- Installation einer Firewall, wobei nur Web- und SSH-Dienste (zur Wartung) durchgelassen werden:
+### Installation einer Firewall, wobei nur Web- und SSH-Dienste (zur Wartung) durchgelassen werden:
   
 ```
 apt install ufw
@@ -59,13 +59,16 @@ ufw allow https
 ufw enable
 ufw status
 ```
-- Absicherung gegen Brute-Force-Attacken: `apt install fail2ban`
+### Absicherung gegen Brute-Force-Attacken
+fail2ban blockiert Adressen nach einer bestimmten Anzahl von Fehlversuchen.
 
-- Verschlüsselte Website einrichten (https):
-  Kostenlose und offiziell anerkannte Webserver-Zertifikate bietet das Projekt [letsencrypt](https://letsencrypt.org/) an. 
-  - Installation: `apt install certbot`
-  - Starten der Konfiguration mit `certbot --apache` (falls dieser Webserver zum Einsatz kommt)
-  - Neustart des Webservers: `systemctl restart apache2`
+Installation: `apt install fail2ban`
+
+### Verschlüsselte Website einrichten (https)
+Kostenlose und offiziell anerkannte Webserver-Zertifikate bietet das Projekt [letsencrypt](https://letsencrypt.org/) an. 
+- Installation: `apt install certbot`
+- Starten der Konfiguration mit `certbot --apache` (falls dieser Webserver zum Einsatz kommt)
+- Neustart des Webservers: `systemctl restart apache2`
 
 
 
