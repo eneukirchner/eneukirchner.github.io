@@ -47,7 +47,8 @@ systemctl enable ddclient
 Im Webinterface des Dyndns-Anbieters sollte dann zum gewählten Hostnamen eine gültige Adresse zeigen. Damit ist der Server von außen erreichbar.
 
 ## Absicherung
-### Installation einer Firewall, wobei nur Web- und SSH-Dienste (zur Wartung) durchgelassen werden:
+### Installation einer Firewall
+Es werden nur Web- und SSH-Dienste (zur Wartung) durchgelassen.
   
 ```
 apt install ufw
