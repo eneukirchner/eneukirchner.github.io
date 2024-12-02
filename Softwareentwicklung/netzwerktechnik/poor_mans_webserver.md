@@ -62,7 +62,7 @@ ufw status
 - Absicherung gegen Brute-Force-Attacken: `apt install fail2ban`
 
 - Verschlüsselte Website einrichten (https):
-  Kostenlose und offiziell anerkannte Webserver-Zertifikate bietet das Projekt https://letsencrypt.org/ an. 
+  Kostenlose und offiziell anerkannte Webserver-Zertifikate bietet das Projekt [letsencrypt](https://letsencrypt.org/) an. 
   - Installation: `apt install certbot`
   - Starten der Konfiguration mit `certbot --apache` (falls dieser Webserver zum Einsatz kommt)
   - Neustart des Webservers: `systemctl restart apache2`
