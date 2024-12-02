@@ -13,10 +13,10 @@ Für lediglich privat genützte Websites, beispielsweise zur Home-Automatisierun
 ## Öffentliche IP-Adresse
 Zwei mögliche Szenarien:
 - Der Provider stellt eine öffentliche IPv4-Adresse zur Verfügung, die am Router direkt nutzbar ist (Beispiel: Magenta Kabelanschluss). In diesem Fall müssen an der Router-Firewall einlangende Pakete auf Port 80/http und 443/https durchgelassen werden. Zusätzlich muss eine Weiterleitung dieser Ports auf den im eigenen Intranet laufenden Webserver eingerichtet werden.
-- Der Provider stellt IPv6-Adressen zur Verfügung. Diese sind per Default öffentlich, daher muss nur die Firewall den einlangenden Traffic zulassen; die Portweiterleitung erübrigt sich. Einfache mobile WLAN-Router mit SIM-Karte haben meist gar keine Firewall, dort muss dann gar nichts konfiguriert werden.
+- Der Provider stellt IPv6-Adressen zur Verfügung. Diese sind per Default öffentlich, daher muss nur die Firewall den einlangenden Traffic zulassen; die Portweiterleitung erübrigt sich. Einfache mobile WLAN-Router mit SIM-Karte haben meist keine Firewall, dort muss dann gar nichts konfiguriert werden.
 
 ## Hostname
-IP-Adressen für Privatkunden sind praktisch immer dynamisch, sie werden also in regelmäßigen Abständen neu vergeben. Um eine permanent erreichbare URL für den Webserver einzurichten, können Dyndns-Services verwendet werden. Dabei läuft auf dem Server ein Client, der seine aktuelle Adresse periodisch an den Dyndns-Anbieter sendet. Die meisten dieser Services sind gratis, es ist nur eine Registrierung notwendig. Die Auswahl an Domainnamen ist allerdings recht stark eingeschränkt.
+IP-Adressen für Privatkunden sind praktisch immer dynamisch, sie werden also in regelmäßigen Abständen neu vergeben. Um eine permanent erreichbare URL für den Webserver einzurichten, können Dyndns-Services verwendet werden. Dabei läuft auf dem Server ein Client, der seine aktuelle Adresse periodisch an den Dyndns-Anbieter sendet. Die meisten dieser Services sind gratis, es ist nur eine Registrierung notwendig. Die Auswahl an Domainnamen ist allerdings recht eingeschränkt.
 
 ### Installation des Dyndns-Clients am Webserver
 Paket installieren: `apt install ddclient` Beim Installieren öffnet sich ein Konfigurations-Dialog; hier einfach alle Punkte mit Enter durchgehen, ohne weitere Eingaben.
