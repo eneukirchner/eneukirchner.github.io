@@ -18,6 +18,10 @@ Zwei mögliche Szenarien:
 ## Hostname
 IP-Adressen für Privatkunden sind praktisch immer dynamisch, sie werden also in regelmäßigen Abständen neu vergeben. Um eine permanent erreichbare URL für den Webserver einzurichten, können Dyndns-Services verwendet werden. Dabei läuft auf dem Server ein Client, der seine aktuelle Adresse periodisch an den Dyndns-Anbieter sendet. Die meisten dieser Services sind gratis, es ist nur eine Registrierung notwendig. Die Auswahl an Domainnamen ist allerdings recht eingeschränkt.
 
+Einige Router (z.B. Asus, MikroTik) haben standardmäßig einen Dyndns-Client eingerichtet, der mit dem Nameserver des Herstellers verbunden ist.
+
+![Einstellung im Web-Admin-Interface](ddns-router.png)
+
 ### Installation des Dyndns-Clients am Webserver
 Paket installieren: `apt install ddclient` Beim Installieren öffnet sich ein Konfigurations-Dialog; hier einfach alle Punkte mit Enter durchgehen, ohne weitere Eingaben.
 
